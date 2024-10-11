@@ -1,0 +1,14 @@
+﻿These data were generated in fall 2018 in functional response experiments using round goby as predators and amphipods as prey,
+Column,Description
+Replicate,Experimental replicate
+Density,Initial prey density at the start of the experiment
+Treatment,"The experimental treatment. Habitat complexity, where no.str had three plexiglas plates added to the aquarium, low.str had two plexiglas plates with a single layer of pebbles attached and one plate with two layers of pebbles, and high.str had three plates with two layers of pebbles added (see manuscript for complete description of treatments). For substrate-type experiments substrate is either sand or rocks."
+tankID,The unique ID code of the aquarium the experiment was done in
+Alive,Number of remaining live prey individuals at the end of the experiment
+Num.killed,The difference between the initial prey density and the number of remaining live prey at the end of the experiment. 
+Weight,The weight of the goby at the end of the experiment in grams
+Length,The fork length of the goby at the end of the experiment in cm
+sex,The sex of the goby used in the experimental trial
+time,The experimental duration in hours
+date,the date of the experimental trial
+prey,prey type
