@@ -26,28 +26,28 @@ lhigh
 
 ###Dead prey
 #dead prey, low structure
-dno.str <- frair_test(formula = num.killed ~ density, data = live[dead$treatment == "no.str",])
+dno.str <- frair_test(formula = num.killed ~ density, data = dead[dead$treatment == "no.str",])
 dno.str
 #Type II
 
 #dead prey, intermediate structure
-dlow <- frair_test(formula = num.killed ~ density, data = live[dead$treatment == "low.c",])
+dlow <- frair_test(formula = num.killed ~ density, data = dead[dead$treatment == "low.c",])
 dlow
 #Type II
 
 #dead prey, high structure
-dhigh <- frair_test(formula = num.killed ~ density, data = live[dead$treatment == "high.c",])
+dhigh <- frair_test(formula = num.killed ~ density, data = dead[dead$treatment == "high.c",])
 dhigh
 #Type II
 
 ###Substrate type
 #rocks
-rocks <- frair_test(formula = num.killed ~ density, data = live[sub$treatment == "rocks",])
+rocks <- frair_test(formula = num.killed ~ density, data = sub[sub$treatment == "rocks",])
 rocks
-#no evidence of any response
+#Type II
 
 #sand
-sand <- frair_test(formula = num.killed ~ density, data = live[sub$treatment == "sand",])
+sand <- frair_test(formula = num.killed ~ density, data = sub[sub$treatment == "sand",])
 sand
 #Type II
 
@@ -70,34 +70,34 @@ summary(ilive.flex$fit)
 hlive.flex <- frair_fit(num.killed~density, data=live[live$treatment == "high.c",], response="flexpnr", 
                         start=list(b = 0.5, q = 0, h= 0.5), fixed=list(T = 6))
 summary(hlive.flex$fit)
-#Type III
+#Type II
 
 ###Dead prey
 #Dead prey, low structure
-dl.flex <- frair_fit(num.killed~density, data=live[dead$treatment == "no.str",], response="flexpnr", 
+dl.flex <- frair_fit(num.killed~density, data=dead[dead$treatment == "no.str",], response="flexpnr", 
                      start=list(b = 0.5, q = 0, h= 0.5), fixed=list(T = 6))
 summary(dl.flex$fit)
 #Type II
 
 #Dead prey, intermediate structure
-di.flex <- frair_fit(num.killed~density, data=live[dead$treatment == "low.c",], response="flexpnr", 
+di.flex <- frair_fit(num.killed~density, data=dead[dead$treatment == "low.c",], response="flexpnr", 
                      start=list(b = 0.5, q = 0, h= 0.5), fixed=list(T = 6))
 summary(di.flex$fit)
-#Type II
-
-#Dead prey, high structure
-dh.flex <- frair_fit(num.killed~density, data=live[dead$treatment == "high.c",], response="flexpnr", 
-                     start=list(b = 0.5, q = 0, h= 0.5), fixed=list(T = 6))
-summary(dh.flex$fit)
-#Type II
-
-###Substrate type
-rocks.flex <- frair_fit(num.killed~density, data=live[sub$treatment == "rocks",], response="flexpnr", 
-                        start=list(b = 0.5, q = 0, h= 0.5), fixed=list(T = 6))
-summary(rocks.flex$fit)
 #Type III
 
-sand.flex <- frair_fit(num.killed~density, data=live[sub$treatment == "sand",], response="flexpnr", 
+#Dead prey, high structure
+dh.flex <- frair_fit(num.killed~density, data=dead[dead$treatment == "high.c",], response="flexpnr", 
+                     start=list(b = 0.5, q = 0, h= 0.5), fixed=list(T = 6))
+summary(dh.flex$fit)
+#Type III
+
+###Substrate type
+rocks.flex <- frair_fit(num.killed~density, data=sub[sub$treatment == "rocks",], response="flexpnr", 
+                        start=list(b = 0.5, q = 0, h= 0.5), fixed=list(T = 6))
+summary(rocks.flex$fit)
+#Type II
+
+sand.flex <- frair_fit(num.killed~density, data=sub[sub$treatment == "sand",], response="flexpnr", 
                         start=list(b = 0.5, q = 0, h= 0.5), fixed=list(T = 6))
 summary(sand.flex$fit)
 #Type III
