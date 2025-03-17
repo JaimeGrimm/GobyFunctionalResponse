@@ -689,3 +689,13 @@ for (i in 1:length(N0)){
   }
 }
 ```
+
+## Model Fitting and Selection
+
+**Data Structure:**
+
+-   All the simulated data are stored in lists. Each list is named by experiment ("Ex"), treatment ("T"), functional response model ("II" or "III"), and sampling distribution ("Unif" or "Norm"). For example: "Ex1.TLow.III.Norm" denotes (1) Experiment 1, (2) Low Treatment, (3) Type III FR, (4) from a normal distribution.
+
+-   Each list is of equal length to the number of initial prey densities used in the experiments (or, here, the length of the vector, $N_0$).
+
+-   Each listen item contains a vector of length 1000. Each of these 1000 values is the output ($N_e$) of a single simulation.
