@@ -1,0 +1,150 @@
+# Simulation Experiment
+
+Here, we will (1) simulate FR data, (2) fit FR models to the simulated data, and (3) select the "best fit" model using AIC, Juliano's, visual inspection, generalized FR model w/ scaling exponent.
+
+Empirically, Grimm et al. conducted three experiments, within which three, three, and two treatments we applied, resulting in eight data sets. From here, Rogers' Type II and Hassell's Type III functional response models were fit to the data. We will use estimated parameter values from each experiment and treatment to simulate each of these two models, 1000 times.
+
+Rogers' Type II FR:
+
+$$
+N_e=N_0(1-exp^{a(N_eh-T)})
+$$
+
+Where $N_e$ is the number of prey eaten, $N_0$​ is the initial number of prey, and $a$, $h$, and $T$ are the attack rate, handling time and the total time available, respectively.
+
+Hassell's Type III FR:
+
+$$
+N_e=N_0(1-exp^{bN_0\frac{N_eh-T}{1+cN_0}})
+$$
+
+Where $b$, and $c$ are free parameters.
+
+## Set-Up
+
+```{r}
+library(frair); library(lamW)
+```
+
+```{r}
+## Rogers' Type II Model
+RogersII <- function(N0, a, h, time){
+  N0 - lamW::lambertW0(a * h * N0 * exp(-a * (time - h * N0)))/(a * h)
+}
+
+## Hassell's Type III Model
+HassellIII <- function(N0, b, c, h, time){
+  a <- b*N0/(1 + c*N0)
+  N0 - lamW::lambertW0(a * h * N0 * exp(-a * (time - h * N0)))/(a * h)
+}
+
+# Test
+N0s <- seq(5, 150, 5)
+Outputs <- c()
+for (i in 1:length(N0s)){
+  Outputs[i] <- RogersII(N0s[i], 0.2, 0.2, 2)
+}
+
+plot(N0s, Outputs)
+```
+
+Parameter Estimates by Experiment and Treatment:
+
+...
+
+## Simulations
+
+### Experiment #1
+
+#### Treatment: Low
+
+##### Rogers' Type II FR Model
+
+```{r}
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+a.vec <- sample(seq(0.489, 3.598, 0.001), 1000, replace = FALSE) 
+h.vec <- sample(seq(0.055, 0.094, 0.001), 1000, replace = TRUE)
+
+Ex1.TLow.II.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.TLow.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+plot(1, type = "n", main = "Experiment 1, Low Treatment: Rogers' Type II FR", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 50))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.TLow.II.Norm[[i]][j])
+  }
+}
+```
+
+##### Hassell's Type III FR Model
+
+#### Treatment: Medium
+
+##### Rogers' Type II FR Model
+
+##### Hassell's Type III FR Model
+
+```{r}
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+b.vec <- sample(seq(0.218, 1686863.823, 0.001), 1000, replace = FALSE) 
+c.vec <- sample(seq(0.049, 1796176.396, 0.001), 1000, replace = FALSE) 
+h.vec <- sample(seq(0.033, 0.06, 0.001), 1000, replace = TRUE)
+
+Ex1.TMed.III.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.TMed.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+plot(1, type = "n", main = "Experiment 1, Medium Treatment: Hassell's Type III FR", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 50))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.TMed.III.Norm[[i]][j])
+  }
+}
+```
+
+#### Treatment: High
+
+##### Rogers' Type II FR Model
+
+##### Hassell's Type III FR Model
+
+### Experiment #2
+
+#### Treatment: Low
+
+##### Rogers' Type II FR Model
+
+##### Hassell's Type III FR Model
+
+#### Treatment: Medium
+
+##### Rogers' Type II FR Model
+
+##### Hassell's Type III FR Model
+
+#### Treatment: High
+
+##### Rogers' Type II FR Model
+
+##### Hassell's Type III FR Model
+
+### Experiment #3
+
+#### Treatment: Rocks
+
+##### Rogers' Type II FR Model
+
+##### Hassell's Type III FR Model
+
+#### Treatment: Sand
+
+##### Rogers' Type II FR Model
+
+##### Hassell's Type III FR Model
