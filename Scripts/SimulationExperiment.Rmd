@@ -44,7 +44,13 @@ Outputs <- c()
 for (i in 1:length(N0s)){
   Outputs[i] <- RogersII(N0s[i], 0.2, 0.2, 2)
 }
+plot(N0s, Outputs)
 
+N0s <- seq(5, 150, 5)
+Outputs <- c()
+for (i in 1:length(N0s)){
+  Outputs[i] <- HassellIII(N0s[i], 0.1, 0.1, 0.02, 2)
+}
 plot(N0s, Outputs)
 ```
 
@@ -61,10 +67,25 @@ Parameter Estimates by Experiment and Treatment:
 ##### Rogers' Type II FR Model
 
 ```{r}
+# Initial Densities
+
 N0 <- c(4, 6, 10, 20, 60, 90, 120)
+
+# Simulations
+
+set.seed(123)
 a.vec <- sample(seq(0.489, 3.598, 0.001), 1000, replace = FALSE) 
 h.vec <- sample(seq(0.055, 0.094, 0.001), 1000, replace = TRUE)
+Ex1.TLow.II.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.TLow.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
 
+set.seed(123)
+a.vec <- rlnorm(1000, mean = log(1.704), sd = log(2)) 
+h.vec <- rlnorm(1000, mean = log(0.072), sd = log(2)) 
 Ex1.TLow.II.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
@@ -72,7 +93,16 @@ for (i in 1:length(N0)){
   }
 }
 
-plot(1, type = "n", main = "Experiment 1, Low Treatment: Rogers' Type II FR", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 50))
+# Plotting
+
+plot(1, type = "n", main = "Experiment 1, Low Treatment: Rogers' Type II FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 50))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.TLow.II.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 1, Low Treatment: Rogers' Type II FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 150))
 for (i in 1:length(N0)){
   for (j in 1:1000){
     points(x = N0[i], y = Ex1.TLow.II.Norm[[i]][j])
@@ -82,18 +112,80 @@ for (i in 1:length(N0)){
 
 ##### Hassell's Type III FR Model
 
+[***NA***]{.underline}
+
 #### Treatment: Medium
 
 ##### Rogers' Type II FR Model
 
+```{r}
+# Initial Densities
+
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+
+# Simulations
+
+set.seed(123)
+a.vec <- sample(seq(0.706, 1.458, 0.001), 1000, replace = TRUE) 
+h.vec <- sample(seq(0.033, 0.059, 0.001), 1000, replace = TRUE)
+Ex1.TMed.II.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.TMed.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+set.seed(123)
+a.vec <- rlnorm(1000, mean = log(1.036), sd = log(2)) 
+h.vec <- rlnorm(1000, mean = log(0.046), sd = log(2)) 
+Ex1.TMed.II.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.TMed.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 1, Medium Treatment: Rogers' Type II FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 50))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.TMed.II.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 1, Medium Treatment: Rogers' Type II FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 150))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.TMed.II.Norm[[i]][j])
+  }
+}
+```
+
 ##### Hassell's Type III FR Model
 
 ```{r}
-N0 <- c(4, 6, 10, 20, 60, 90, 120)
-b.vec <- sample(seq(0.218, 1686863.823, 0.001), 1000, replace = FALSE) 
-c.vec <- sample(seq(0.049, 1796176.396, 0.001), 1000, replace = FALSE) 
-h.vec <- sample(seq(0.033, 0.06, 0.001), 1000, replace = TRUE)
+# Initial Densities
 
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+
+# Simulations
+
+set.seed(123)
+b.vec <- sample(seq(0.218, 1686863.823/100, 0.001), 1000, replace = FALSE) 
+c.vec <- sample(seq(0.049, 1796176.396/100, 0.001), 1000, replace = FALSE) 
+h.vec <- sample(seq(0.033, 0.06, 0.001), 1000, replace = TRUE)
+Ex1.TMed.III.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.TMed.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+set.seed(123)
+b.vec <- rlnorm(1000, mean = log(5.303), sd = log(2))
+c.vec <- rlnorm(1000, mean = log(5.000), sd = log(2))
+h.vec <- rlnorm(1000, mean = log(0.046), sd = log(2))
 Ex1.TMed.III.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
@@ -101,7 +193,16 @@ for (i in 1:length(N0)){
   }
 }
 
-plot(1, type = "n", main = "Experiment 1, Medium Treatment: Hassell's Type III FR", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 50))
+# Plotting
+
+plot(1, type = "n", main = "Experiment 1, Medium Treatment: Hassell's Type III FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 80))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.TMed.III.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 1, Medium Treatment: Hassell's Type III FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 150))
 for (i in 1:length(N0)){
   for (j in 1:1000){
     points(x = N0[i], y = Ex1.TMed.III.Norm[[i]][j])
@@ -113,7 +214,97 @@ for (i in 1:length(N0)){
 
 ##### Rogers' Type II FR Model
 
+```{r}
+# Initial Densities
+
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+
+# Simulations
+
+set.seed(123)
+a.vec <- sample(seq(0.224, 1.055, 0.001), 1000, replace = TRUE) 
+h.vec <- sample(seq(0.028, 0.091, 0.001), 1000, replace = TRUE)
+Ex1.THigh.II.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.THigh.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+set.seed(123)
+a.vec <- rlnorm(1000, mean = log(0.607), sd = log(2)) 
+h.vec <- rlnorm(1000, mean = log(0.055), sd = log(2)) 
+Ex1.THigh.II.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.THigh.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 1, High Treatment: Rogers' Type II FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 60))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.THigh.II.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 1, High Treatment: Rogers' Type II FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 100))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.THigh.II.Norm[[i]][j])
+  }
+}
+```
+
 ##### Hassell's Type III FR Model
+
+```{r}
+# Initial Densities
+
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+
+# Simulations
+
+set.seed(123)
+b.vec <- sample(seq(0.079, 1072285.537/100, 0.001), 1000, replace = FALSE) 
+c.vec <- sample(seq(0.000, 2227240.993/100, 0.001), 1000, replace = FALSE) 
+h.vec <- sample(seq(0.008, 0.088, 0.001), 1000, replace = TRUE)
+Ex1.THigh.III.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.THigh.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+set.seed(123)
+b.vec <- rlnorm(1000, mean = log(0.537), sd = log(2))
+c.vec <- rlnorm(1000, mean = log(0.758), sd = log(2))
+h.vec <- rlnorm(1000, mean = log(0.058), sd = log(2))
+Ex1.THigh.III.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex1.THigh.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 1, High Treatment: Hassell's Type III FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 150))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.THigh.III.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 1, High Treatment: Hassell's Type III FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 120), ylim = c(0, 150))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex1.THigh.III.Norm[[i]][j])
+  }
+}
+```
 
 ### Experiment #2
 
@@ -121,19 +312,239 @@ for (i in 1:length(N0)){
 
 ##### Rogers' Type II FR Model
 
+```{r}
+# Initial Densities
+
+N0 <- c(2, 3, 5, 10, 20, 30, 50)
+
+# Simulations
+
+set.seed(123)
+a.vec <- sample(seq(0.262, 0.752, 0.001), 1000, replace = TRUE) 
+h.vec <- sample(seq(0.000, 0.132, 0.001), 1000, replace = TRUE)
+Ex2.TLow.II.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.TLow.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+set.seed(123)
+a.vec <- rlnorm(1000, mean = log(0.477), sd = log(2)) 
+h.vec <- rlnorm(1000, mean = log(0.038), sd = log(2)) 
+Ex2.TLow.II.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.TLow.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 2, Low Treatment: Rogers' Type II FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 50))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.TLow.II.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 2, Low Treatment: Rogers' Type II FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 50))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.TLow.II.Norm[[i]][j])
+  }
+}
+```
+
 ##### Hassell's Type III FR Model
+
+```{r}
+# Initial Densities
+
+N0 <- c(2, 3, 5, 10, 20, 30, 50)
+
+# Simulations
+
+b.vec <- sample(seq(0.062, 197962.2481/100, 0.001), 1000, replace = FALSE) 
+c.vec <- sample(seq(0.000, 533631.8351/100, 0.001), 1000, replace = FALSE) 
+h.vec <- sample(seq(0.000, 0.143, 0.001), 1000, replace = TRUE)
+Ex2.TLow.III.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.TLow.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+b.vec <- rlnorm(1000, mean = log(0.191), sd = log(2))
+c.vec <- rlnorm(1000, mean = log(0.239), sd = log(2))
+h.vec <- rlnorm(1000, mean = log(0.061), sd = log(2))
+Ex2.TLow.III.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.TLow.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 2, Low Treatment: Hassell's Type III FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 60))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.TLow.III.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 2, Low Treatment: Hassell's Type III FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 60))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.TLow.III.Norm[[i]][j])
+  }
+}
+```
 
 #### Treatment: Medium
 
 ##### Rogers' Type II FR Model
 
+[***NA***]{.underline}
+
 ##### Hassell's Type III FR Model
+
+```{r}
+# Initial Densities
+
+N0 <- c(2, 3, 5, 10, 20, 30, 50)
+
+# Simulations
+
+b.vec <- sample(seq(0.013, 323804.821/100, 0.001), 1000, replace = FALSE) 
+c.vec <- sample(seq(0.000, 3514096.291/1000, 0.001), 1000, replace = FALSE) 
+h.vec <- sample(seq(0.000, 0.274, 0.001), 1000, replace = TRUE)
+Ex2.TMed.III.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.TMed.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+b.vec <- rlnorm(1000, mean = log(0.039), sd = log(2))
+c.vec <- rlnorm(1000, mean = log(0.180), sd = log(2))
+h.vec <- rlnorm(1000, mean = log(0.067), sd = log(2))
+Ex2.TMed.III.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.TMed.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 2, Medium Treatment: Hassell's Type III FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 60))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.TMed.III.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 2, Medium Treatment: Hassell's Type III FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 60))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.TMed.III.Norm[[i]][j])
+  }
+}
+```
 
 #### Treatment: High
 
 ##### Rogers' Type II FR Model
 
+```{r}
+# Initial Densities
+
+N0 <- c(2, 3, 5, 10, 20, 30, 50)
+
+# Simulations
+
+a.vec <- sample(seq(0.086, 0.207, 0.001), 1000, replace = TRUE) 
+h.vec <- sample(seq(0.000, 0.257, 0.001), 1000, replace = TRUE)
+Ex2.THigh.II.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.THigh.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+a.vec <- rlnorm(1000, mean = log(0.144), sd = log(2)) 
+h.vec <- rlnorm(1000, mean = log(0.046), sd = log(2)) 
+Ex2.THigh.II.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.THigh.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 2, High Treatment: Rogers' Type II FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 20))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.THigh.II.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 2, High Treatment: Rogers' Type II FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 50))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.THigh.II.Norm[[i]][j])
+  }
+}
+```
+
 ##### Hassell's Type III FR Model
+
+```{r}
+# Initial Densities
+
+N0 <- c(2, 3, 5, 10, 20, 30, 50)
+
+# Simulations
+
+b.vec <- sample(seq(0.010, 0.068, 0.001), 1000, replace = TRUE) 
+c.vec <- sample(seq(0.000, 2.007, 0.001), 1000, replace = FALSE) 
+h.vec <- sample(seq(0.000, 0.420, 0.001), 1000, replace = TRUE)
+Ex2.THigh.III.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.THigh.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+b.vec <- rlnorm(1000, mean = log(0.024), sd = log(2))
+c.vec <- rlnorm(1000, mean = log(0.026), sd = log(2))
+h.vec <- rlnorm(1000, mean = log(0.181), sd = log(2))
+Ex2.THigh.III.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex2.THigh.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 2, High Treatment: Hassell's Type III FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 45))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.THigh.III.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 2, High Treatment: Hassell's Type III FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 50), ylim = c(0, 45))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex2.THigh.III.Norm[[i]][j])
+  }
+}
+```
 
 ### Experiment #3
 
@@ -141,10 +552,140 @@ for (i in 1:length(N0)){
 
 ##### Rogers' Type II FR Model
 
+```{r}
+# Initial Densities
+
+N0 <- c(2, 3, 5, 10, 20, 30)
+
+# Simulations
+
+a.vec <- sample(seq(0.075, 0.211, 0.001), 1000, replace = TRUE) 
+h.vec <- sample(seq(0.000, 0.293, 0.001), 1000, replace = TRUE)
+Ex3.TRocks.II.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex3.TRocks.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+a.vec <- rlnorm(1000, mean = log(0.131), sd = log(2)) 
+h.vec <- rlnorm(1000, mean = log(0.102), sd = log(2)) 
+Ex3.TRocks.II.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex3.TRocks.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 3, Rocks Treatment: Rogers' Type II FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 20))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex3.TRocks.II.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 3, Rocks Treatment: Rogers' Type II FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 20))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex3.TRocks.II.Norm[[i]][j])
+  }
+}
+```
+
 ##### Hassell's Type III FR Model
+
+[***NA***]{.underline}
 
 #### Treatment: Sand
 
 ##### Rogers' Type II FR Model
 
+```{r}
+# Initial Densities
+
+N0 <- c(2, 3, 5, 10, 20, 30)
+
+# Simulations
+
+a.vec <- sample(seq(0.488, 1.516, 0.001), 1000, replace = FALSE) 
+h.vec <- sample(seq(0.000, 0.249, 0.001), 1000, replace = TRUE)
+Ex3.TSand.II.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex3.TSand.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+a.vec <- rlnorm(1000, mean = log(0.848), sd = log(2)) 
+h.vec <- rlnorm(1000, mean = log(0.048), sd = log(2)) 
+Ex3.TSand.II.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex3.TSand.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 3, Sand Treatment: Rogers' Type II FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 35))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex3.TSand.II.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 3, Sand Treatment: Rogers' Type II FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 35))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex3.TSand.II.Norm[[i]][j])
+  }
+}
+```
+
 ##### Hassell's Type III FR Model
+
+```{r}
+# Initial Densities
+
+N0 <- c(2, 3, 5, 10, 20, 30)
+
+# Simulations
+
+b.vec <- sample(seq(0.221, 3338468.210/100, 0.001), 1000, replace = FALSE) 
+c.vec <- sample(seq(0.000, 1780576.771/100, 0.001), 1000, replace = FALSE) 
+h.vec <- sample(seq(0.000, 0.289, 0.001), 1000, replace = TRUE)
+Ex3.TSand.III.Unif <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex3.TSand.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+b.vec <- rlnorm(1000, mean = log(1.181), sd = log(2))
+c.vec <- rlnorm(1000, mean = log(1.163), sd = log(2))
+h.vec <- rlnorm(1000, mean = log(0.058), sd = log(2))
+Ex3.TSand.III.Norm <- vector(mode = 'list', length = length(N0))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    Ex3.TSand.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+  }
+}
+
+# Plotting
+
+plot(1, type = "n", main = "Experiment 1, Sand Treatment: Hassell's Type III FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 30))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex3.TSand.III.Unif[[i]][j])
+  }
+}
+
+plot(1, type = "n", main = "Experiment 1, Sand Treatment: Hassell's Type III FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 30))
+for (i in 1:length(N0)){
+  for (j in 1:1000){
+    points(x = N0[i], y = Ex3.TSand.III.Norm[[i]][j])
+  }
+}
+```
