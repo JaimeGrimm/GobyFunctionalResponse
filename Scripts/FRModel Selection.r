@@ -3,9 +3,9 @@ require(frair)
 require(ggplot2)
 
 #Load data
-live <- read.csv("~/Documents/GitHub/GobyFunctionalResponse/Data/amphipodFRdata.csv")
-dead <- read.csv("~/Documents/GitHub/GobyFunctionalResponse/Data/bloodwormFRdata.csv")
-sub <- read.csv("~/Documents/GitHub/GobyFunctionalResponse/Data/substratetypeFRdata.csv")
+live <- read.csv("Data/amphipodFRdata.csv")
+dead <- read.csv("Data/bloodwormFRdata.csv")
+sub <- read.csv("Data/substratetypeFRdata.csv")
 
 ####Method 1 for model selection - Juliano's method####
 ###Live prey

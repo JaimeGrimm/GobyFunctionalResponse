@@ -74,12 +74,12 @@ N0 <- c(4, 6, 10, 20, 60, 90, 120)
 # Simulations
 
 set.seed(123)
-a.vec <- sample(seq(0.489, 3.598, 0.001), 1000, replace = FALSE) 
+a.vec <- sample(seq(0.489, 3.598, 0.001), 1000, replace = TRUE) 
 h.vec <- sample(seq(0.055, 0.094, 0.001), 1000, replace = TRUE)
 Ex1.TLow.II.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.TLow.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex1.TLow.II.Unif[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -89,7 +89,7 @@ h.vec <- rlnorm(1000, mean = log(0.072), sd = log(2))
 Ex1.TLow.II.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.TLow.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex1.TLow.II.Norm[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -131,7 +131,7 @@ h.vec <- sample(seq(0.033, 0.059, 0.001), 1000, replace = TRUE)
 Ex1.TMed.II.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.TMed.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex1.TMed.II.Unif[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -141,7 +141,7 @@ h.vec <- rlnorm(1000, mean = log(0.046), sd = log(2))
 Ex1.TMed.II.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.TMed.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex1.TMed.II.Norm[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -172,13 +172,13 @@ N0 <- c(4, 6, 10, 20, 60, 90, 120)
 # Simulations
 
 set.seed(123)
-b.vec <- sample(seq(0.218, 1686863.823/100, 0.001), 1000, replace = FALSE) 
-c.vec <- sample(seq(0.049, 1796176.396/100, 0.001), 1000, replace = FALSE) 
+b.vec <- sample(seq(0.218, 1686863.823/100000, 0.001), 1000, replace = TRUE) 
+c.vec <- sample(seq(0.049, 1796176.396/100000, 0.001), 1000, replace = TRUE) 
 h.vec <- sample(seq(0.033, 0.06, 0.001), 1000, replace = TRUE)
 Ex1.TMed.III.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.TMed.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex1.TMed.III.Unif[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -189,7 +189,7 @@ h.vec <- rlnorm(1000, mean = log(0.046), sd = log(2))
 Ex1.TMed.III.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.TMed.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex1.TMed.III.Norm[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -227,7 +227,7 @@ h.vec <- sample(seq(0.028, 0.091, 0.001), 1000, replace = TRUE)
 Ex1.THigh.II.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.THigh.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex1.THigh.II.Unif[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -237,7 +237,7 @@ h.vec <- rlnorm(1000, mean = log(0.055), sd = log(2))
 Ex1.THigh.II.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.THigh.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex1.THigh.II.Norm[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -268,13 +268,13 @@ N0 <- c(4, 6, 10, 20, 60, 90, 120)
 # Simulations
 
 set.seed(123)
-b.vec <- sample(seq(0.079, 1072285.537/100, 0.001), 1000, replace = FALSE) 
-c.vec <- sample(seq(0.000, 2227240.993/100, 0.001), 1000, replace = FALSE) 
+b.vec <- sample(seq(0.079, 1072285.537/1000000, 0.001), 1000, replace = TRUE) 
+c.vec <- sample(seq(0.000, 2227240.993/1000000, 0.001), 1000, replace = TRUE) 
 h.vec <- sample(seq(0.008, 0.088, 0.001), 1000, replace = TRUE)
 Ex1.THigh.III.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.THigh.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex1.THigh.III.Unif[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -285,7 +285,7 @@ h.vec <- rlnorm(1000, mean = log(0.058), sd = log(2))
 Ex1.THigh.III.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex1.THigh.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex1.THigh.III.Norm[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -325,7 +325,7 @@ h.vec <- sample(seq(0.000, 0.132, 0.001), 1000, replace = TRUE)
 Ex2.TLow.II.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.TLow.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex2.TLow.II.Unif[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -335,7 +335,7 @@ h.vec <- rlnorm(1000, mean = log(0.038), sd = log(2))
 Ex2.TLow.II.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.TLow.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex2.TLow.II.Norm[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -365,13 +365,13 @@ N0 <- c(2, 3, 5, 10, 20, 30, 50)
 
 # Simulations
 
-b.vec <- sample(seq(0.062, 197962.2481/100, 0.001), 1000, replace = FALSE) 
-c.vec <- sample(seq(0.000, 533631.8351/100, 0.001), 1000, replace = FALSE) 
+b.vec <- sample(seq(0.062, 197962.2481/100000, 0.001), 1000, replace = TRUE) 
+c.vec <- sample(seq(0.000, 533631.8351/100000, 0.001), 1000, replace = TRUE) 
 h.vec <- sample(seq(0.000, 0.143, 0.001), 1000, replace = TRUE)
 Ex2.TLow.III.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.TLow.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex2.TLow.III.Unif[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -381,7 +381,7 @@ h.vec <- rlnorm(1000, mean = log(0.061), sd = log(2))
 Ex2.TLow.III.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.TLow.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex2.TLow.III.Norm[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -417,13 +417,13 @@ N0 <- c(2, 3, 5, 10, 20, 30, 50)
 
 # Simulations
 
-b.vec <- sample(seq(0.013, 323804.821/100, 0.001), 1000, replace = FALSE) 
-c.vec <- sample(seq(0.000, 3514096.291/1000, 0.001), 1000, replace = FALSE) 
+b.vec <- sample(seq(0.013, 323804.821/100000, 0.001), 1000, replace = TRUE) 
+c.vec <- sample(seq(0.000, 3514096.291/100000, 0.001), 1000, replace = TRUE) 
 h.vec <- sample(seq(0.000, 0.274, 0.001), 1000, replace = TRUE)
 Ex2.TMed.III.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.TMed.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex2.TMed.III.Unif[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -433,7 +433,7 @@ h.vec <- rlnorm(1000, mean = log(0.067), sd = log(2))
 Ex2.TMed.III.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.TMed.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex2.TMed.III.Norm[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -470,7 +470,7 @@ h.vec <- sample(seq(0.000, 0.257, 0.001), 1000, replace = TRUE)
 Ex2.THigh.II.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.THigh.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex2.THigh.II.Unif[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -479,7 +479,7 @@ h.vec <- rlnorm(1000, mean = log(0.046), sd = log(2))
 Ex2.THigh.II.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.THigh.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex2.THigh.II.Norm[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -510,12 +510,12 @@ N0 <- c(2, 3, 5, 10, 20, 30, 50)
 # Simulations
 
 b.vec <- sample(seq(0.010, 0.068, 0.001), 1000, replace = TRUE) 
-c.vec <- sample(seq(0.000, 2.007, 0.001), 1000, replace = FALSE) 
+c.vec <- sample(seq(0.000, 2.007, 0.001), 1000, replace = TRUE) 
 h.vec <- sample(seq(0.000, 0.420, 0.001), 1000, replace = TRUE)
 Ex2.THigh.III.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.THigh.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex2.THigh.III.Unif[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -525,7 +525,7 @@ h.vec <- rlnorm(1000, mean = log(0.181), sd = log(2))
 Ex2.THigh.III.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex2.THigh.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex2.THigh.III.Norm[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -564,7 +564,7 @@ h.vec <- sample(seq(0.000, 0.293, 0.001), 1000, replace = TRUE)
 Ex3.TRocks.II.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex3.TRocks.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex3.TRocks.II.Unif[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -573,7 +573,7 @@ h.vec <- rlnorm(1000, mean = log(0.102), sd = log(2))
 Ex3.TRocks.II.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex3.TRocks.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex3.TRocks.II.Norm[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -609,12 +609,12 @@ N0 <- c(2, 3, 5, 10, 20, 30)
 
 # Simulations
 
-a.vec <- sample(seq(0.488, 1.516, 0.001), 1000, replace = FALSE) 
+a.vec <- sample(seq(0.488, 1.516, 0.001), 1000, replace = TRUE) 
 h.vec <- sample(seq(0.000, 0.249, 0.001), 1000, replace = TRUE)
 Ex3.TSand.II.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex3.TSand.II.Unif[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex3.TSand.II.Unif[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -623,7 +623,7 @@ h.vec <- rlnorm(1000, mean = log(0.048), sd = log(2))
 Ex3.TSand.II.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex3.TSand.II.Norm[[i]][j] <- RogersII(N0[i], a.vec[j], h.vec[j], 2)
+    Ex3.TSand.II.Norm[[i]][j] <- round(RogersII(N0[i], a.vec[j], h.vec[j], 2))
   }
 }
 
@@ -653,13 +653,13 @@ N0 <- c(2, 3, 5, 10, 20, 30)
 
 # Simulations
 
-b.vec <- sample(seq(0.221, 3338468.210/100, 0.001), 1000, replace = FALSE) 
-c.vec <- sample(seq(0.000, 1780576.771/100, 0.001), 1000, replace = FALSE) 
+b.vec <- sample(seq(0.221, 3338468.210/1000000, 0.001), 1000, replace = TRUE) 
+c.vec <- sample(seq(0.000, 1780576.771/1000000, 0.001), 1000, replace = TRUE) 
 h.vec <- sample(seq(0.000, 0.289, 0.001), 1000, replace = TRUE)
 Ex3.TSand.III.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex3.TSand.III.Unif[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex3.TSand.III.Unif[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -669,7 +669,7 @@ h.vec <- rlnorm(1000, mean = log(0.058), sd = log(2))
 Ex3.TSand.III.Norm <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
-    Ex3.TSand.III.Norm[[i]][j] <- HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2)
+    Ex3.TSand.III.Norm[[i]][j] <- round(HassellIII(N0[i], b.vec[j], c.vec[j], h.vec[j], 2))
   }
 }
 
@@ -699,3 +699,463 @@ for (i in 1:length(N0)){
 -   Each list is of equal length to the number of initial prey densities used in the experiments (or, here, the length of the vector, $N_0$).
 
 -   Each listen item contains a vector of length 1000. Each of these 1000 values is the output ($N_e$) of a single simulation.
+
+### Changing Data Structure (Idiot Time)
+
+#### Experiment 1
+
+```{r}
+N0 <- rep(c(4, 6, 10, 20, 60, 90, 120), times = 1000)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.TLow.II.Unif[[1]][i], 
+              Ex1.TLow.II.Unif[[2]][i], 
+              Ex1.TLow.II.Unif[[3]][i], 
+              Ex1.TLow.II.Unif[[4]][i], 
+              Ex1.TLow.II.Unif[[5]][i], 
+              Ex1.TLow.II.Unif[[6]][i], 
+              Ex1.TLow.II.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TLow.II.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.TLow.II.Norm[[1]][i], 
+              Ex1.TLow.II.Norm[[2]][i], 
+              Ex1.TLow.II.Norm[[3]][i], 
+              Ex1.TLow.II.Norm[[4]][i], 
+              Ex1.TLow.II.Norm[[5]][i], 
+              Ex1.TLow.II.Norm[[6]][i], 
+              Ex1.TLow.II.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TLow.II.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.TMed.II.Unif[[1]][i], 
+              Ex1.TMed.II.Unif[[2]][i], 
+              Ex1.TMed.II.Unif[[3]][i], 
+              Ex1.TMed.II.Unif[[4]][i], 
+              Ex1.TMed.II.Unif[[5]][i], 
+              Ex1.TMed.II.Unif[[6]][i], 
+              Ex1.TMed.II.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TMed.II.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.TMed.II.Norm[[1]][i], 
+              Ex1.TMed.II.Norm[[2]][i], 
+              Ex1.TMed.II.Norm[[3]][i], 
+              Ex1.TMed.II.Norm[[4]][i], 
+              Ex1.TMed.II.Norm[[5]][i], 
+              Ex1.TMed.II.Norm[[6]][i], 
+              Ex1.TMed.II.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TMed.II.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.TMed.III.Unif[[1]][i], 
+              Ex1.TMed.III.Unif[[2]][i], 
+              Ex1.TMed.III.Unif[[3]][i], 
+              Ex1.TMed.III.Unif[[4]][i], 
+              Ex1.TMed.III.Unif[[5]][i], 
+              Ex1.TMed.III.Unif[[6]][i], 
+              Ex1.TMed.III.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TMed.III.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.TMed.III.Norm[[1]][i], 
+              Ex1.TMed.III.Norm[[2]][i], 
+              Ex1.TMed.III.Norm[[3]][i], 
+              Ex1.TMed.III.Norm[[4]][i], 
+              Ex1.TMed.III.Norm[[5]][i], 
+              Ex1.TMed.III.Norm[[6]][i], 
+              Ex1.TMed.III.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TMed.III.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.THigh.II.Unif[[1]][i], 
+              Ex1.THigh.II.Unif[[2]][i], 
+              Ex1.THigh.II.Unif[[3]][i], 
+              Ex1.THigh.II.Unif[[4]][i], 
+              Ex1.THigh.II.Unif[[5]][i], 
+              Ex1.THigh.II.Unif[[6]][i], 
+              Ex1.THigh.II.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; THigh.II.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.THigh.II.Norm[[1]][i], 
+              Ex1.THigh.II.Norm[[2]][i], 
+              Ex1.THigh.II.Norm[[3]][i], 
+              Ex1.THigh.II.Norm[[4]][i], 
+              Ex1.THigh.II.Norm[[5]][i], 
+              Ex1.THigh.II.Norm[[6]][i], 
+              Ex1.THigh.II.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; THigh.II.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.THigh.III.Unif[[1]][i], 
+              Ex1.THigh.III.Unif[[2]][i], 
+              Ex1.THigh.III.Unif[[3]][i], 
+              Ex1.THigh.III.Unif[[4]][i], 
+              Ex1.THigh.III.Unif[[5]][i], 
+              Ex1.THigh.III.Unif[[6]][i], 
+              Ex1.THigh.III.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; THigh.III.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex1.THigh.III.Norm[[1]][i], 
+              Ex1.THigh.III.Norm[[2]][i], 
+              Ex1.THigh.III.Norm[[3]][i], 
+              Ex1.THigh.III.Norm[[4]][i], 
+              Ex1.THigh.III.Norm[[5]][i], 
+              Ex1.THigh.III.Norm[[6]][i], 
+              Ex1.THigh.III.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; THigh.III.Norm <- data.frame(Ne, N0)
+
+Ex1SimDat <- list(TLow.II.Unif, TLow.II.Norm,
+                  TMed.II.Unif, TMed.II.Norm, TMed.III.Unif, TMed.III.Norm,
+                  THigh.II.Unif, THigh.II.Norm, THigh.III.Unif, THigh.III.Norm)
+names(Ex1SimDat) <- c("TLow.II.Unif", "TLow.II.Norm",
+                      "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
+                      "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+```
+
+#### Experiment 2
+
+```{r}
+N0 <- rep(c(2, 3, 5, 10, 20, 30, 50), times = 1000)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.TLow.II.Unif[[1]][i], 
+              Ex2.TLow.II.Unif[[2]][i], 
+              Ex2.TLow.II.Unif[[3]][i], 
+              Ex2.TLow.II.Unif[[4]][i], 
+              Ex2.TLow.II.Unif[[5]][i], 
+              Ex2.TLow.II.Unif[[6]][i], 
+              Ex2.TLow.II.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TLow.II.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.TLow.II.Norm[[1]][i], 
+              Ex2.TLow.II.Norm[[2]][i], 
+              Ex2.TLow.II.Norm[[3]][i], 
+              Ex2.TLow.II.Norm[[4]][i], 
+              Ex2.TLow.II.Norm[[5]][i], 
+              Ex2.TLow.II.Norm[[6]][i], 
+              Ex2.TLow.II.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TLow.II.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.TLow.III.Unif[[1]][i], 
+              Ex2.TLow.III.Unif[[2]][i], 
+              Ex2.TLow.III.Unif[[3]][i], 
+              Ex2.TLow.III.Unif[[4]][i], 
+              Ex2.TLow.III.Unif[[5]][i], 
+              Ex2.TLow.III.Unif[[6]][i], 
+              Ex2.TLow.III.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TLow.III.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.TLow.III.Norm[[1]][i], 
+              Ex2.TLow.III.Norm[[2]][i], 
+              Ex2.TLow.III.Norm[[3]][i], 
+              Ex2.TLow.III.Norm[[4]][i], 
+              Ex2.TLow.III.Norm[[5]][i], 
+              Ex2.TLow.III.Norm[[6]][i], 
+              Ex2.TLow.III.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TLow.III.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.TMed.III.Unif[[1]][i], 
+              Ex2.TMed.III.Unif[[2]][i], 
+              Ex2.TMed.III.Unif[[3]][i], 
+              Ex2.TMed.III.Unif[[4]][i], 
+              Ex2.TMed.III.Unif[[5]][i], 
+              Ex2.TMed.III.Unif[[6]][i], 
+              Ex2.TMed.III.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TMed.III.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.TMed.III.Norm[[1]][i], 
+              Ex2.TMed.III.Norm[[2]][i], 
+              Ex2.TMed.III.Norm[[3]][i], 
+              Ex2.TMed.III.Norm[[4]][i], 
+              Ex2.TMed.III.Norm[[5]][i], 
+              Ex2.TMed.III.Norm[[6]][i], 
+              Ex2.TMed.III.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; TMed.III.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.THigh.II.Unif[[1]][i], 
+              Ex2.THigh.II.Unif[[2]][i], 
+              Ex2.THigh.II.Unif[[3]][i], 
+              Ex2.THigh.II.Unif[[4]][i], 
+              Ex2.THigh.II.Unif[[5]][i], 
+              Ex2.THigh.II.Unif[[6]][i], 
+              Ex2.THigh.II.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; THigh.II.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.THigh.II.Norm[[1]][i], 
+              Ex2.THigh.II.Norm[[2]][i], 
+              Ex2.THigh.II.Norm[[3]][i], 
+              Ex2.THigh.II.Norm[[4]][i], 
+              Ex2.THigh.II.Norm[[5]][i], 
+              Ex2.THigh.II.Norm[[6]][i], 
+              Ex2.THigh.II.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; THigh.II.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.THigh.III.Unif[[1]][i], 
+              Ex2.THigh.III.Unif[[2]][i], 
+              Ex2.THigh.III.Unif[[3]][i], 
+              Ex2.THigh.III.Unif[[4]][i], 
+              Ex2.THigh.III.Unif[[5]][i], 
+              Ex2.THigh.III.Unif[[6]][i], 
+              Ex2.THigh.III.Unif[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; THigh.III.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex2.THigh.III.Norm[[1]][i], 
+              Ex2.THigh.III.Norm[[2]][i], 
+              Ex2.THigh.III.Norm[[3]][i], 
+              Ex2.THigh.III.Norm[[4]][i], 
+              Ex2.THigh.III.Norm[[5]][i], 
+              Ex2.THigh.III.Norm[[6]][i], 
+              Ex2.THigh.III.Norm[[7]][i])
+  Ne <- c(Ne, NeTemp)
+}; THigh.III.Norm <- data.frame(Ne, N0)
+
+Ex2SimDat <- list(TLow.II.Unif, TLow.II.Norm, TLow.III.Unif, TLow.III.Norm,
+                  TMed.III.Unif, TMed.III.Norm,
+                  THigh.II.Unif, THigh.II.Norm, THigh.III.Unif, THigh.III.Norm)
+names(Ex2SimDat) <- c("TLow.II.Unif", "TLow.II.Norm", "TLow.III.Unif", "TLow.III.Norm",
+                      "TMed.III.Unif", "TMed.III.Norm",
+                      "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+```
+
+#### Experiment 3
+
+```{r}
+N0 <- rep(c(2, 3, 5, 10, 20, 30), times = 1000)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex3.TRocks.II.Unif[[1]][i], 
+              Ex3.TRocks.II.Unif[[2]][i], 
+              Ex3.TRocks.II.Unif[[3]][i], 
+              Ex3.TRocks.II.Unif[[4]][i], 
+              Ex3.TRocks.II.Unif[[5]][i], 
+              Ex3.TRocks.II.Unif[[6]][i])
+  Ne <- c(Ne, NeTemp)
+}; TRocks.II.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex3.TRocks.II.Norm[[1]][i], 
+              Ex3.TRocks.II.Norm[[2]][i], 
+              Ex3.TRocks.II.Norm[[3]][i], 
+              Ex3.TRocks.II.Norm[[4]][i], 
+              Ex3.TRocks.II.Norm[[5]][i], 
+              Ex3.TRocks.II.Norm[[6]][i])
+  Ne <- c(Ne, NeTemp)
+}; TRocks.II.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex3.TSand.II.Unif[[1]][i], 
+              Ex3.TSand.II.Unif[[2]][i], 
+              Ex3.TSand.II.Unif[[3]][i], 
+              Ex3.TSand.II.Unif[[4]][i], 
+              Ex3.TSand.II.Unif[[5]][i], 
+              Ex3.TSand.II.Unif[[6]][i])
+  Ne <- c(Ne, NeTemp)
+}; TSand.II.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex3.TSand.II.Norm[[1]][i], 
+              Ex3.TSand.II.Norm[[2]][i], 
+              Ex3.TSand.II.Norm[[3]][i], 
+              Ex3.TSand.II.Norm[[4]][i], 
+              Ex3.TSand.II.Norm[[5]][i], 
+              Ex3.TSand.II.Norm[[6]][i])
+  Ne <- c(Ne, NeTemp)
+}; TSand.II.Norm <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex3.TSand.III.Unif[[1]][i], 
+              Ex3.TSand.III.Unif[[2]][i], 
+              Ex3.TSand.III.Unif[[3]][i], 
+              Ex3.TSand.III.Unif[[4]][i], 
+              Ex3.TSand.III.Unif[[5]][i], 
+              Ex3.TSand.III.Unif[[6]][i])
+  Ne <- c(Ne, NeTemp)
+}; TSand.III.Unif <- data.frame(Ne, N0)
+
+Ne <- c()
+for (i in 1:1000){
+  NeTemp <- c(Ex3.TSand.III.Norm[[1]][i], 
+              Ex3.TSand.III.Norm[[2]][i], 
+              Ex3.TSand.III.Norm[[3]][i], 
+              Ex3.TSand.III.Norm[[4]][i], 
+              Ex3.TSand.III.Norm[[5]][i], 
+              Ex3.TSand.III.Norm[[6]][i])
+  Ne <- c(Ne, NeTemp)
+}; TSand.III.Norm <- data.frame(Ne, N0)
+
+Ex3SimDat <- list(TRocks.II.Unif, TRocks.II.Norm,
+                  TSand.II.Unif, TSand.II.Norm, TSand.III.Unif, TSand.III.Norm)
+names(Ex3SimDat) <- c("TRocks.II.Unif", "TRocks.II.Norm",
+                      "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
+```
+
+### frair_test
+
+Writing the function to sort outcomes.
+
+```{r}
+getType <- function(x) {
+  stopifnot(inherits(x, "frtest"))
+  # This is pracctically a copy&paste of getAnywhere(print.frtest)
+  T2Coef <- coef(summary(x$modT2))
+  T2CoefOut <- T2Coef[2, ] |> matrix(nrow = 1)
+  
+  T3Coef <- coef(summary(x$modT3))
+  T3CoefOut <- T3Coef[2:3, ]
+  
+  Type <- if(T2CoefOut[1, 1] < 0 & T2CoefOut[1, 4] < 0.05) {
+    "type-II response"
+  } else if (T3CoefOut[1, 1] > 0 & 
+             T3CoefOut[1, 4] < 0.05 & 
+             T3CoefOut[2, 1] < 0 & 
+             T3CoefOut[2, 4] < 0.05) {
+    "type-III response"
+  }
+  else {
+    "No evidence for any response."
+  }
+  Type
+}
+```
+
+#### One Test Per Row
+
+```{r}
+## Experiment 1
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+Out.List.Outer <-  vector(mode = 'list', length = length(Ex1SimDat)) 
+for (i in 1:length(Ex1SimDat)){
+  Out.List.Inner <-  vector(mode = 'list', length = 1000)
+  m <- 1; n <- 7
+  for (j in 1:1000){
+    SimDat <- Ex1SimDat[[i]][m:n, ]
+    Output <- frair_test(formula = Ne ~ N0, data = SimDat)
+    Out.List.Inner[[j]] <- Output
+    m <- m + 7; n <- n + 7
+  }
+  Out.List.Outer[[i]] <- Out.List.Inner
+}
+Ex1.Prop <- c() 
+for (i in 1:length(Ex1SimDat)){
+  Temp <- c(lapply(Out.List.Outer[[i]], getType))
+  II.III.NA <- c(length(which(Temp == "type-II response")),
+                 length(which(Temp == "type-III response")),
+                 length(which(Temp == "No evidence for any response.")))
+  Ex1.Prop <- rbind(Ex1.Prop, II.III.NA)
+}
+colnames(Ex1.Prop) <- c("II", "III", "NA")
+rownames(Ex1.Prop) <- c("TLow.II.Unif", "TLow.II.Norm",
+                        "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
+                        "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+
+## Experiment 2
+N0 <- c(2, 3, 5, 10, 20, 30, 50)
+Out.List.Outer <-  vector(mode = 'list', length = length(Ex2SimDat)) 
+for (i in 1:length(Ex2SimDat)){
+  Out.List.Inner <-  vector(mode = 'list', length = 1000)
+  m <- 1; n <- 7
+  for (j in 1:1000){
+    SimDat <- Ex2SimDat[[i]][m:n, ]
+    SimDat <- SimDat %>% replace(is.na(.), 0) # Gives no response
+    Output <- frair_test(formula = Ne ~ N0, data = SimDat)
+    Out.List.Inner[[j]] <- Output
+    m <- m + 7; n <- n + 7
+  }
+  Out.List.Outer[[i]] <- Out.List.Inner
+}
+Ex2.Prop <- c() 
+for (i in 1:length(Ex2SimDat)){
+  Temp <- c(lapply(Out.List.Outer[[i]], getType))
+  II.III.NA <- c(length(which(Temp == "type-II response")),
+                 length(which(Temp == "type-III response")),
+                 length(which(Temp == "No evidence for any response.")))
+  Ex2.Prop <- rbind(Ex2.Prop, II.III.NA)
+}
+colnames(Ex2.Prop) <- c("II", "III", "NA")
+rownames(Ex2.Prop) <- c("TLow.II.Unif", "TLow.II.Norm", "TLow.III.Unif", "TLow.III.Norm",
+                        "TMed.III.Unif", "TMed.III.Norm",
+                        "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+
+## Experiment 3
+N0 <- c(2, 3, 5, 10, 20, 30)
+Out.List.Outer <-  vector(mode = 'list', length = length(Ex3SimDat)) 
+for (i in 1:length(Ex3SimDat)){
+  Out.List.Inner <-  vector(mode = 'list', length = 1000)
+  m <- 1; n <- 6
+  for (j in 1:1000){
+    SimDat <- Ex3SimDat[[i]][m:n, ]
+    SimDat <- SimDat %>% replace(is.na(.), 0) # Gives no response
+    Output <- frair_test(formula = Ne ~ N0, data = SimDat)
+    Out.List.Inner[[j]] <- Output
+    m <- m + 6; n <- n + 6
+  }
+  Out.List.Outer[[i]] <- Out.List.Inner
+}
+Ex3.Prop <- c() 
+for (i in 1:length(Ex3SimDat)){
+  Temp <- c(lapply(Out.List.Outer[[i]], getType))
+  II.III.NA <- c(length(which(Temp == "type-II response")),
+                 length(which(Temp == "type-III response")),
+                 length(which(Temp == "No evidence for any response.")))
+  Ex3.Prop <- rbind(Ex3.Prop, II.III.NA)
+}
+colnames(Ex3.Prop) <- c("II", "III", "NA")
+rownames(Ex3.Prop) <- c("TRocks.II.Unif", "TRocks.II.Norm",
+                        "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
+```
