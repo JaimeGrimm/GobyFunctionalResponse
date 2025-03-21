@@ -1159,3 +1159,42 @@ colnames(Ex3.Prop) <- c("II", "III", "NA")
 rownames(Ex3.Prop) <- c("TRocks.II.Unif", "TRocks.II.Norm",
                         "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
 ```
+
+#### Summarising Results
+
+```{r}
+## Experiment 1
+Cases <- c("TLow.II.Unif", "TLow.II.Norm",
+           "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
+           "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+par(mar = c(8, 5, 4, 3))
+plot(x = 1:10, y = as.numeric(Ex1.Prop[ ,1]), col = "orchid", pch = c(8, 8, 8, 8, 19, 19, 8, 8, 19, 19), 
+     main = "Experiment 1", xlab = "", ylab = "Number of Simulations (/1000)",
+     ylim = c(0, 1000), xaxt = "n")
+points(x = 1:10, y = as.numeric(Ex1.Prop[ ,2]), col = "cornflowerblue", pch = c(19, 19, 19, 19, 8, 8, 19, 19, 8, 8))
+points(x = 1:10, y = as.numeric(Ex1.Prop[ ,3]), col = "goldenrod2", pch = 19)
+axis(1, at = 1:10, labels = Cases, las = 2)
+
+## Experiment 2
+Cases <- c("TLow.II.Unif", "TLow.II.Norm", "TLow.III.Unif", "TLow.III.Norm",
+           "TMed.III.Unif", "TMed.III.Norm",
+           "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+par(mar = c(8, 5, 4, 3))
+plot(x = 1:10, y = as.numeric(Ex2.Prop[ ,1]), col = "orchid", pch = c(8, 8, 19, 19, 19, 19, 8, 8, 19, 19), 
+     main = "Experiment 2", xlab = "", ylab = "Number of Simulations (/1000)",
+     ylim = c(0, 1000), xaxt = "n")
+points(x = 1:10, y = as.numeric(Ex2.Prop[ ,2]), col = "cornflowerblue", pch = c(19, 19, 8, 8, 8, 8, 19, 19, 8, 8))
+points(x = 1:10, y = as.numeric(Ex2.Prop[ ,3]), col = "goldenrod2", pch = 19)
+axis(1, at = 1:10, labels = Cases, las = 2)
+
+## Experiment 3
+Cases <- c("TRocks.II.Unif", "TRocks.II.Norm",
+           "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
+par(mar = c(8, 5, 4, 3))
+plot(x = 1:6, y = as.numeric(Ex3.Prop[ ,1]), col = "orchid", pch = c(8, 8, 8, 8, 19, 19), 
+     main = "Experiment 3", xlab = "", ylab = "Number of Simulations (/1000)",
+     ylim = c(0, 1000), xaxt = "n")
+points(x = 1:6, y = as.numeric(Ex3.Prop[ ,2]), col = "cornflowerblue", pch = c(19, 19, 19, 19, 8, 8))
+points(x = 1:6, y = as.numeric(Ex3.Prop[ ,3]), col = "goldenrod2", pch = 19)
+axis(1, at = 1:6, labels = Cases, las = 2)
+```
