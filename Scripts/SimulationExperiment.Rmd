@@ -1045,7 +1045,7 @@ names(Ex3SimDat) <- c("TRocks.II.Unif", "TRocks.II.Norm",
                       "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
 ```
 
-### frair_test
+### Juliano's
 
 Writing the function to sort outcomes.
 
@@ -1198,3 +1198,7 @@ points(x = 1:6, y = as.numeric(Ex3.Prop[ ,2]), col = "cornflowerblue", pch = c(1
 points(x = 1:6, y = as.numeric(Ex3.Prop[ ,3]), col = "goldenrod2", pch = 19)
 axis(1, at = 1:6, labels = Cases, las = 2)
 ```
+
+### Generalized FR w/ Scaling Exponent
+
+### Visual Inspection
