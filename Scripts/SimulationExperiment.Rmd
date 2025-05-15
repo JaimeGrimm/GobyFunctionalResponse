@@ -23,7 +23,7 @@ Where $b$, and $c$ are free parameters.
 ## Set-Up
 
 ```{r}
-library(frair); library(lamW)
+library(frair); library(lamW); library(tidyverse)
 ```
 
 ```{r}
@@ -1045,7 +1045,7 @@ names(Ex3SimDat) <- c("TRocks.II.Unif", "TRocks.II.Norm",
                       "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
 ```
 
-### Juliano's
+### Method (1): Juliano's
 
 Writing the function to sort outcomes.
 
@@ -1158,6 +1158,11 @@ for (i in 1:length(Ex3SimDat)){
 colnames(Ex3.Prop) <- c("II", "III", "NA")
 rownames(Ex3.Prop) <- c("TRocks.II.Unif", "TRocks.II.Norm",
                         "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
+
+## SAVING OUTPUTS
+saveRDS(Ex1.Prop, "SimOutputs/Ex1Prop_Juliano.rds")
+saveRDS(Ex2.Prop, "SimOutputs/Ex2Prop_Juliano.rds")
+saveRDS(Ex3.Prop, "SimOutputs/Ex3Prop_Juliano.rds")
 ```
 
 #### Summarising Results
@@ -1199,6 +1204,61 @@ points(x = 1:6, y = as.numeric(Ex3.Prop[ ,3]), col = "goldenrod2", pch = 19)
 axis(1, at = 1:6, labels = Cases, las = 2)
 ```
 
-### Generalized FR w/ Scaling Exponent
+### Method (2): Generalized FR w/ Scaling Exponent
 
-### Visual Inspection
+Writing the function to sort outcomes.
+
+```{r}
+getType.GenFR <- function(x){
+  Pr <- coef(summary(x$fit))[2, 4]
+  Type <- if(Pr < 0.05) {
+    "type-II response"
+  } else {
+    "type-III response"
+  }
+  Type
+}
+```
+
+#### One Test Per Row
+
+```{r}
+## Experiment 1
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+Out.List.Outer <-  vector(mode = 'list', length = length(Ex1SimDat)) 
+suppressWarnings({
+for (i in 1:length(Ex1SimDat)){
+  Out.List.Inner <-  vector(mode = 'list', length = 1000)
+  m <- 1; n <- 7
+  for (j in 1:1000){
+    SimDat <- Ex1SimDat[[i]][m:n, ]
+    Output <- frair_fit(formula = Ne ~ N0, data = SimDat, response = "flexpnr",
+                        start = list(b = 0.5, q = 0, h= 0.5), fixed = list(T = 6))
+    Out.List.Inner[[j]] <- Output
+    m <- m + 7; n <- n + 7
+  }
+  Out.List.Outer[[i]] <- Out.List.Inner
+}})
+Ex1.Prop <- c() 
+for (i in 1:length(Ex1SimDat)){
+  Temp <- c(lapply(Out.List.Outer[[i]], getType.GenFR))
+  II.III.NA <- c(length(which(Temp == "type-II response")),
+                 length(which(Temp == "type-III response")),
+                 length(which(Temp == "No evidence for any response.")))
+  Ex1.Prop <- rbind(Ex1.Prop, II.III.NA)
+}
+colnames(Ex1.Prop) <- c("II", "III", "NA")
+rownames(Ex1.Prop) <- c("TLow.II.Unif", "TLow.II.Norm",
+                        "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
+                        "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+
+
+
+
+
+llive.flex <- frair_fit(num.killed~density, data=live[live$treatment == "no.str",], response="flexpnr", 
+                    start=list(b = 0.5, q = 0, h= 0.5), fixed=list(T = 6))
+summary(llive.flex$fit)
+```
+
+### Method (4): Visual Inspection
