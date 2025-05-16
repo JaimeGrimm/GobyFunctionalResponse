@@ -1215,7 +1215,9 @@ Writing the function to sort outcomes.
 getType.GenFR <- function(x){
   stopifnot(inherits(x, "frfit"))
   Pr <- coef(summary(x$fit))[2, 4]
-  Type <- if(Pr < 0.05) {
+  Type <- if(is.na(Pr)) {
+    "No evidence for any response."
+  } else if (Pr <= 0.05) {
     "type-II response"
   } else {
     "type-III response"
@@ -1246,14 +1248,79 @@ for (i in 1:length(Ex1SimDat)){
 Ex1.Prop <- c() 
 for (i in 1:length(Ex1SimDat)){
   Temp <- c(lapply(Out.List.Outer[[i]], getType.GenFR))
-  II.III <- c(length(which(Temp == "type-II response")),
-                 length(which(Temp == "type-III response")))
-  Ex1.Prop <- rbind(Ex1.Prop, II.III)
+  II.III.NA <- c(length(which(Temp == "type-II response")),
+                 length(which(Temp == "type-III response")),
+                 length(which(Temp == "No evidence for any response.")))
+  Ex1.Prop <- rbind(Ex1.Prop, II.III.NA)
 }
-colnames(Ex1.Prop) <- c("II", "III")
+colnames(Ex1.Prop) <- c("II", "III", "NA")
 rownames(Ex1.Prop) <- c("TLow.II.Unif", "TLow.II.Norm",
                         "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
                         "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+
+## Experiment 2
+N0 <- c(2, 3, 5, 10, 20, 30, 50)
+Out.List.Outer <-  vector(mode = 'list', length = length(Ex2SimDat)) 
+suppressWarnings({
+for (i in 1:length(Ex2SimDat)){
+  Out.List.Inner <-  vector(mode = 'list', length = 1000)
+  m <- 1; n <- 7
+  for (j in 1:1000){
+    SimDat <- Ex2SimDat[[i]][m:n, ]
+    # SimDat <- SimDat %>% replace(is.na(.), 0) # Gives no response
+    Output <- frair_fit(formula = Ne ~ N0, data = SimDat, response = "flexpnr",
+                        start = list(b = 0.5, q = 0, h= 0.5), fixed = list(T = 6))
+    Out.List.Inner[[j]] <- Output
+    m <- m + 7; n <- n + 7
+  }
+  Out.List.Outer[[i]] <- Out.List.Inner
+}})
+Ex2.Prop <- c() 
+for (i in 1:length(Ex2SimDat)){
+  Temp <- c(lapply(Out.List.Outer[[i]], getType.GenFR))
+  II.III.NA <- c(length(which(Temp == "type-II response")),
+                 length(which(Temp == "type-III response")),
+                 length(which(Temp == "No evidence for any response.")))
+  Ex2.Prop <- rbind(Ex2.Prop, II.III.NA)
+}
+colnames(Ex2.Prop) <- c("II", "III", "NA")
+rownames(Ex2.Prop) <- c("TLow.II.Unif", "TLow.II.Norm", "TLow.III.Unif", "TLow.III.Norm",
+                        "TMed.III.Unif", "TMed.III.Norm",
+                        "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+
+## Experiment 3
+N0 <- c(2, 3, 5, 10, 20, 30)
+Out.List.Outer <-  vector(mode = 'list', length = length(Ex3SimDat)) 
+suppressWarnings({
+for (i in 1:length(Ex3SimDat)){
+  Out.List.Inner <-  vector(mode = 'list', length = 1000)
+  m <- 1; n <- 6
+  for (j in 1:1000){
+    SimDat <- Ex3SimDat[[i]][m:n, ]
+    # SimDat <- SimDat %>% replace(is.na(.), 0) # Gives no response
+    Output <- frair_fit(formula = Ne ~ N0, data = SimDat, response = "flexpnr",
+                        start = list(b = 0.5, q = 0, h= 0.5), fixed = list(T = 6))
+    Out.List.Inner[[j]] <- Output
+    m <- m + 6; n <- n + 6
+  }
+  Out.List.Outer[[i]] <- Out.List.Inner
+}})
+Ex3.Prop <- c() 
+for (i in 1:length(Ex3SimDat)){
+  Temp <- c(lapply(Out.List.Outer[[i]], getType.GenFR))
+  II.III.NA <- c(length(which(Temp == "type-II response")),
+                 length(which(Temp == "type-III response")),
+                 length(which(Temp == "No evidence for any response.")))
+  Ex3.Prop <- rbind(Ex3.Prop, II.III.NA)
+}
+colnames(Ex3.Prop) <- c("II", "III", "NA")
+rownames(Ex3.Prop) <- c("TRocks.II.Unif", "TRocks.II.Norm",
+                        "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
+
+## SAVING OUTPUTS
+saveRDS(Ex1.Prop, "SimOutputs/Ex1Prop_Juliano.rds")
+saveRDS(Ex2.Prop, "SimOutputs/Ex2Prop_Juliano.rds")
+saveRDS(Ex3.Prop, "SimOutputs/Ex3Prop_Juliano.rds")
 ```
 
 ### Method (4): Visual Inspection
