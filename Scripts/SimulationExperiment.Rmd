@@ -1398,17 +1398,286 @@ points(x = 1:5, y = Ex1.Unif.Flex, col = alpha("goldenrod2", 0.4), pch = 19, cex
 axis(1, at = 1:5, labels = c("Low, II", "Med., II", "Med., III", "High, II", "High, III"))
 legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19, cex = 1, bty = "n")
 
-Ex2.Prop.J <- readRDS("SimOutputs/Ex2Prop_Juliano.rds")
-Ex2.Prop.F <- readRDS("SimOutputs/Ex2Prop_FlexFR.rds")
+Ex2.Prop.J <- readRDS(here("./SimOutputs/Ex2Prop_Juliano.rds"))
+Ex2.Prop.F <- readRDS(here("./SimOutputs/Ex2Prop_FlexFR.rds"))
 
+Ex2.Unif.Js <- c(Ex2.Prop.J[1,1], Ex2.Prop.J[3,2], Ex2.Prop.J[5,2], Ex2.Prop.J[7,1], Ex2.Prop.J[9,2])
+Ex2.Unif.Flex <- c(Ex2.Prop.F[1,1], Ex2.Prop.F[3,2], Ex2.Prop.F[5,2], Ex2.Prop.F[7,1], Ex2.Prop.F[9,2])
+par(mar = c(5.1, 4.1, 4.1, 9.1), xpd = TRUE)
+Cases <- c("TLow.II.Unif", "TLow.III.Unif", "TMed.III.Unif", "THigh.II.Unif", "THigh.III.Unif")
+plot(x = 1:5, y = Ex2.Unif.Js, col = alpha("orchid", 0.5), pch = 19, cex = 2,
+     main = "Experiment 2 (Draw from 'runif')", xlab = "", ylab = "Number of Simulations (/1000)",
+     ylim = c(0, 1000), xaxt = "n")
+points(x = 1:5, y = Ex2.Unif.Flex, col = alpha("goldenrod2", 0.5), pch = 19, cex = 2)
+axis(1, at = 1:5, labels = c("Low, II", "Low, III", "Med., III", "High, II", "High, III"))
+legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19, cex = 1, bty = "n")
 
+Ex2.Norm.Js <- c(Ex2.Prop.J[2,1], Ex2.Prop.J[4,2], Ex2.Prop.J[6,2], Ex2.Prop.J[8,1], Ex2.Prop.J[10,2])
+Ex2.Norm.Flex <- c(Ex2.Prop.F[2,1], Ex2.Prop.F[4,2], Ex2.Prop.F[6,2], Ex2.Prop.F[8,1], Ex2.Prop.F[10,2])
+par(mar = c(5.1, 4.1, 4.1, 9.1), xpd = TRUE)
+Cases <- c("TLow.II.Norm", "TLow.III.Norm", "TMed.III.Norm", "THigh.II.Norm", "THigh.III.Norm")
+plot(x = 1:5, y = Ex2.Norm.Js, col = alpha("orchid", 0.5), pch = 19, cex = 2,
+     main = "Experiment 2 (Draw from 'rnorm')", xlab = "", ylab = "Number of Simulations (/1000)",
+     ylim = c(0, 1000), xaxt = "n")
+points(x = 1:5, y = Ex2.Norm.Flex, col = alpha("goldenrod2", 0.4), pch = 19, cex = 2)
+axis(1, at = 1:5, labels = c("Low, II", "Med., II", "Med., III", "High, II", "High, III"))
+legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19, cex = 1, bty = "n")
 
+Ex3.Prop.J <- readRDS(here("./SimOutputs/Ex3Prop_Juliano.rds"))
+Ex3.Prop.F <- readRDS(here("./SimOutputs/Ex3Prop_FlexFR.rds"))
 
+Ex3.Unif.Js <- c(Ex3.Prop.J[1,1], Ex3.Prop.J[3,1], Ex3.Prop.J[5,2])
+Ex3.Unif.Flex <- c(Ex3.Prop.F[1,1], Ex3.Prop.F[3,1], Ex3.Prop.F[5,2])
+par(mar = c(5.1, 4.1, 4.1, 9.1), xpd = TRUE)
+Cases <- c("TRocks.II.Unif", "TSand.II.Unif", "TSand.III.Unif")
+plot(x = 1:3, y = Ex3.Unif.Js, col = alpha("orchid", 0.5), pch = 19, cex = 2,
+     main = "Experiment 3 (Draw from 'runif')", xlab = "", ylab = "Number of Simulations (/1000)",
+     ylim = c(0, 1000), xaxt = "n")
+points(x = 1:3, y = Ex3.Unif.Flex, col = alpha("goldenrod2", 0.5), pch = 19, cex = 2)
+axis(1, at = 1:3, labels = c("Rocks, II", "Sand, II", "Sand, III"))
+legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19, cex = 1, bty = "n")
 
-
-Ex3.Prop.J <- readRDS("SimOutputs/Ex3Prop_Juliano.rds")
-Ex3.Prop.F <- readRDS("SimOutputs/Ex3Prop_FlexFR.rds")
-
+Ex3.Norm.Js <- c(Ex3.Prop.J[2,1], Ex3.Prop.J[4,1], Ex3.Prop.J[6,2])
+Ex3.Norm.Flex <- c(Ex3.Prop.F[2,1], Ex3.Prop.F[4,1], Ex3.Prop.F[6,2])
+par(mar = c(5.1, 4.1, 4.1, 9.1), xpd = TRUE)
+Cases <- c("TRocks.II.Norm", "TSand.II.Norm", "TSand.III.Norm")
+plot(x = 1:3, y = Ex3.Norm.Js, col = alpha("orchid", 0.5), pch = 19, cex = 2,
+     main = "Experiment 3 (Draw from 'rnorm')", xlab = "", ylab = "Number of Simulations (/1000)",
+     ylim = c(0, 1000), xaxt = "n")
+points(x = 1:3, y = Ex3.Norm.Flex, col = alpha("goldenrod2", 0.5), pch = 19, cex = 2)
+axis(1, at = 1:3, labels = c("Rocks, II", "Sand, II", "Sand, III"))
+legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19, cex = 1, bty = "n")
 ```
 
 ### Method (4): Visual Inspection
+
+```{r}
+## Proportion DFs
+
+# Experiment 1
+Ex1.Low.II.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex1.Low.II.Unif.Props) <- c("N0.4", "N0.6", "N0.10", "N0.20", "N0.60", "N0.90", "N0.120")
+j <- 1
+for (i in 1:1000){
+  Ex1.Low.II.Unif.Props[i, 1] <- Ex1SimDat[["TLow.II.Unif"]][j, 1]/4; j <- j + 1
+  Ex1.Low.II.Unif.Props[i, 2] <- Ex1SimDat[["TLow.II.Unif"]][j, 1]/6; j <- j + 1
+  Ex1.Low.II.Unif.Props[i, 3] <- Ex1SimDat[["TLow.II.Unif"]][j, 1]/10; j <- j + 1
+  Ex1.Low.II.Unif.Props[i, 4] <- Ex1SimDat[["TLow.II.Unif"]][j, 1]/20; j <- j + 1
+  Ex1.Low.II.Unif.Props[i, 5] <- Ex1SimDat[["TLow.II.Unif"]][j, 1]/60; j <- j + 1
+  Ex1.Low.II.Unif.Props[i, 6] <- Ex1SimDat[["TLow.II.Unif"]][j, 1]/90; j <- j + 1
+  Ex1.Low.II.Unif.Props[i, 7] <- Ex1SimDat[["TLow.II.Unif"]][j, 1]/120; j <- j + 1
+}
+
+Ex1.Med.II.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex1.Med.II.Unif.Props) <- c("N0.4", "N0.6", "N0.10", "N0.20", "N0.60", "N0.90", "N0.120")
+j <- 1
+for (i in 1:1000){
+  Ex1.Med.II.Unif.Props[i, 1] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/4; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 2] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/6; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 3] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/10; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 4] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/20; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 5] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/60; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 6] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/90; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 7] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/120; j <- j + 1
+}
+
+Ex1.Med.III.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex1.Med.III.Unif.Props) <- c("N0.4", "N0.6", "N0.10", "N0.20", "N0.60", "N0.90", "N0.120")
+j <- 1
+for (i in 1:1000){
+  Ex1.Med.III.Unif.Props[i, 1] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/4; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 2] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/6; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 3] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/10; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 4] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/20; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 5] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/60; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 6] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/90; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 7] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/120; j <- j + 1
+}
+
+Ex1.High.II.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex1.High.II.Unif.Props) <- c("N0.4", "N0.6", "N0.10", "N0.20", "N0.60", "N0.90", "N0.120")
+j <- 1
+for (i in 1:1000){
+  Ex1.High.II.Unif.Props[i, 1] <- Ex1SimDat[["THigh.II.Unif"]][j, 1]/4; j <- j + 1
+  Ex1.High.II.Unif.Props[i, 2] <- Ex1SimDat[["THigh.II.Unif"]][j, 1]/6; j <- j + 1
+  Ex1.High.II.Unif.Props[i, 3] <- Ex1SimDat[["THigh.II.Unif"]][j, 1]/10; j <- j + 1
+  Ex1.High.II.Unif.Props[i, 4] <- Ex1SimDat[["THigh.II.Unif"]][j, 1]/20; j <- j + 1
+  Ex1.High.II.Unif.Props[i, 5] <- Ex1SimDat[["THigh.II.Unif"]][j, 1]/60; j <- j + 1
+  Ex1.High.II.Unif.Props[i, 6] <- Ex1SimDat[["THigh.II.Unif"]][j, 1]/90; j <- j + 1
+  Ex1.High.II.Unif.Props[i, 7] <- Ex1SimDat[["THigh.II.Unif"]][j, 1]/120; j <- j + 1
+}
+
+Ex1.High.III.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex1.High.III.Unif.Props) <- c("N0.4", "N0.6", "N0.10", "N0.20", "N0.60", "N0.90", "N0.120")
+j <- 1
+for (i in 1:1000){
+  Ex1.High.III.Unif.Props[i, 1] <- Ex1SimDat[["THigh.III.Unif"]][j, 1]/4; j <- j + 1
+  Ex1.High.III.Unif.Props[i, 2] <- Ex1SimDat[["THigh.III.Unif"]][j, 1]/6; j <- j + 1
+  Ex1.High.III.Unif.Props[i, 3] <- Ex1SimDat[["THigh.III.Unif"]][j, 1]/10; j <- j + 1
+  Ex1.High.III.Unif.Props[i, 4] <- Ex1SimDat[["THigh.III.Unif"]][j, 1]/20; j <- j + 1
+  Ex1.High.III.Unif.Props[i, 5] <- Ex1SimDat[["THigh.III.Unif"]][j, 1]/60; j <- j + 1
+  Ex1.High.III.Unif.Props[i, 6] <- Ex1SimDat[["THigh.III.Unif"]][j, 1]/90; j <- j + 1
+  Ex1.High.III.Unif.Props[i, 7] <- Ex1SimDat[["THigh.III.Unif"]][j, 1]/120; j <- j + 1
+}
+
+# Experiment 2 # 2, 3, 5, 10, 20, 30, 50
+Ex2.Low.II.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex2.Low.II.Unif.Props) <- c("N0.2", "N0.3", "N0.5", "N0.10", "N0.20", "N0.30", "N0.50")
+j <- 1
+for (i in 1:1000){
+  Ex2.Low.II.Unif.Props[i, 1] <- Ex2SimDat[["TLow.II.Unif"]][j, 1]/2; j <- j + 1
+  Ex2.Low.II.Unif.Props[i, 2] <- Ex2SimDat[["TLow.II.Unif"]][j, 1]/3; j <- j + 1
+  Ex2.Low.II.Unif.Props[i, 3] <- Ex2SimDat[["TLow.II.Unif"]][j, 1]/5; j <- j + 1
+  Ex2.Low.II.Unif.Props[i, 4] <- Ex2SimDat[["TLow.II.Unif"]][j, 1]/10; j <- j + 1
+  Ex2.Low.II.Unif.Props[i, 5] <- Ex2SimDat[["TLow.II.Unif"]][j, 1]/20; j <- j + 1
+  Ex2.Low.II.Unif.Props[i, 6] <- Ex2SimDat[["TLow.II.Unif"]][j, 1]/30; j <- j + 1
+  Ex2.Low.II.Unif.Props[i, 7] <- Ex2SimDat[["TLow.II.Unif"]][j, 1]/50; j <- j + 1
+}
+
+Ex2.Low.III.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex2.Low.III.Unif.Props) <- c("N0.2", "N0.3", "N0.5", "N0.10", "N0.20", "N0.30", "N0.50")
+j <- 1
+for (i in 1:1000){
+  Ex2.Low.III.Unif.Props[i, 1] <- Ex2SimDat[["TLow.III.Unif"]][j, 1]/2; j <- j + 1
+  Ex2.Low.III.Unif.Props[i, 2] <- Ex2SimDat[["TLow.III.Unif"]][j, 1]/3; j <- j + 1
+  Ex2.Low.III.Unif.Props[i, 3] <- Ex2SimDat[["TLow.III.Unif"]][j, 1]/5; j <- j + 1
+  Ex2.Low.III.Unif.Props[i, 4] <- Ex2SimDat[["TLow.III.Unif"]][j, 1]/10; j <- j + 1
+  Ex2.Low.III.Unif.Props[i, 5] <- Ex2SimDat[["TLow.III.Unif"]][j, 1]/20; j <- j + 1
+  Ex2.Low.III.Unif.Props[i, 6] <- Ex2SimDat[["TLow.III.Unif"]][j, 1]/30; j <- j + 1
+  Ex2.Low.III.Unif.Props[i, 7] <- Ex2SimDat[["TLow.III.Unif"]][j, 1]/50; j <- j + 1
+}
+
+Ex2.Med.III.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex2.Med.III.Unif.Props) <- c("N0.2", "N0.3", "N0.5", "N0.10", "N0.20", "N0.30", "N0.50")
+j <- 1
+for (i in 1:1000){
+  Ex2.Med.III.Unif.Props[i, 1] <- Ex2SimDat[["TMed.III.Unif"]][j, 1]/2; j <- j + 1
+  Ex2.Med.III.Unif.Props[i, 2] <- Ex2SimDat[["TMed.III.Unif"]][j, 1]/3; j <- j + 1
+  Ex2.Med.III.Unif.Props[i, 3] <- Ex2SimDat[["TMed.III.Unif"]][j, 1]/5; j <- j + 1
+  Ex2.Med.III.Unif.Props[i, 4] <- Ex2SimDat[["TMed.III.Unif"]][j, 1]/10; j <- j + 1
+  Ex2.Med.III.Unif.Props[i, 5] <- Ex2SimDat[["TMed.III.Unif"]][j, 1]/20; j <- j + 1
+  Ex2.Med.III.Unif.Props[i, 6] <- Ex2SimDat[["TMed.III.Unif"]][j, 1]/30; j <- j + 1
+  Ex2.Med.III.Unif.Props[i, 7] <- Ex2SimDat[["TMed.III.Unif"]][j, 1]/50; j <- j + 1
+}
+
+Ex2.High.II.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex2.High.II.Unif.Props) <- c("N0.2", "N0.3", "N0.5", "N0.10", "N0.20", "N0.30", "N0.50")
+j <- 1
+for (i in 1:1000){
+  Ex2.High.II.Unif.Props[i, 1] <- Ex2SimDat[["THigh.II.Unif"]][j, 1]/2; j <- j + 1
+  Ex2.High.II.Unif.Props[i, 2] <- Ex2SimDat[["THigh.II.Unif"]][j, 1]/3; j <- j + 1
+  Ex2.High.II.Unif.Props[i, 3] <- Ex2SimDat[["THigh.II.Unif"]][j, 1]/5; j <- j + 1
+  Ex2.High.II.Unif.Props[i, 4] <- Ex2SimDat[["THigh.II.Unif"]][j, 1]/10; j <- j + 1
+  Ex2.High.II.Unif.Props[i, 5] <- Ex2SimDat[["THigh.II.Unif"]][j, 1]/20; j <- j + 1
+  Ex2.High.II.Unif.Props[i, 6] <- Ex2SimDat[["THigh.II.Unif"]][j, 1]/30; j <- j + 1
+  Ex2.High.II.Unif.Props[i, 7] <- Ex2SimDat[["THigh.II.Unif"]][j, 1]/50; j <- j + 1
+}
+
+Ex2.High.III.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex2.High.III.Unif.Props) <- c("N0.2", "N0.3", "N0.5", "N0.10", "N0.20", "N0.30", "N0.50")
+j <- 1
+for (i in 1:1000){
+  Ex2.High.III.Unif.Props[i, 1] <- Ex2SimDat[["THigh.III.Unif"]][j, 1]/2; j <- j + 1
+  Ex2.High.III.Unif.Props[i, 2] <- Ex2SimDat[["THigh.III.Unif"]][j, 1]/3; j <- j + 1
+  Ex2.High.III.Unif.Props[i, 3] <- Ex2SimDat[["THigh.III.Unif"]][j, 1]/5; j <- j + 1
+  Ex2.High.III.Unif.Props[i, 4] <- Ex2SimDat[["THigh.III.Unif"]][j, 1]/10; j <- j + 1
+  Ex2.High.III.Unif.Props[i, 5] <- Ex2SimDat[["THigh.III.Unif"]][j, 1]/20; j <- j + 1
+  Ex2.High.III.Unif.Props[i, 6] <- Ex2SimDat[["THigh.III.Unif"]][j, 1]/30; j <- j + 1
+  Ex2.High.III.Unif.Props[i, 7] <- Ex2SimDat[["THigh.III.Unif"]][j, 1]/50; j <- j + 1
+}
+
+# Experiment 3
+Ex3.Rocks.II.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 6))
+colnames(Ex3.Rocks.II.Unif.Props) <- c("N0.2", "N0.3", "N0.5", "N0.10", "N0.20", "N0.30")
+j <- 1
+for (i in 1:1000){
+  Ex3.Rocks.II.Unif.Props[i, 1] <- Ex3SimDat[["TRocks.II.Unif"]][j, 1]/2; j <- j + 1
+  Ex3.Rocks.II.Unif.Props[i, 2] <- Ex3SimDat[["TRocks.II.Unif"]][j, 1]/3; j <- j + 1
+  Ex3.Rocks.II.Unif.Props[i, 3] <- Ex3SimDat[["TRocks.II.Unif"]][j, 1]/5; j <- j + 1
+  Ex3.Rocks.II.Unif.Props[i, 4] <- Ex3SimDat[["TRocks.II.Unif"]][j, 1]/10; j <- j + 1
+  Ex3.Rocks.II.Unif.Props[i, 5] <- Ex3SimDat[["TRocks.II.Unif"]][j, 1]/20; j <- j + 1
+  Ex3.Rocks.II.Unif.Props[i, 6] <- Ex3SimDat[["TRocks.II.Unif"]][j, 1]/30; j <- j + 1
+}
+
+Ex3.Sand.II.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 6))
+colnames(Ex3.Sand.II.Unif.Props) <- c("N0.2", "N0.3", "N0.5", "N0.10", "N0.20", "N0.30")
+j <- 1
+for (i in 1:1000){
+  Ex3.Sand.II.Unif.Props[i, 1] <- Ex3SimDat[["TSand.II.Unif"]][j, 1]/2; j <- j + 1
+  Ex3.Sand.II.Unif.Props[i, 2] <- Ex3SimDat[["TSand.II.Unif"]][j, 1]/3; j <- j + 1
+  Ex3.Sand.II.Unif.Props[i, 3] <- Ex3SimDat[["TSand.II.Unif"]][j, 1]/5; j <- j + 1
+  Ex3.Sand.II.Unif.Props[i, 4] <- Ex3SimDat[["TSand.II.Unif"]][j, 1]/10; j <- j + 1
+  Ex3.Sand.II.Unif.Props[i, 5] <- Ex3SimDat[["TSand.II.Unif"]][j, 1]/20; j <- j + 1
+  Ex3.Sand.II.Unif.Props[i, 6] <- Ex3SimDat[["TSand.II.Unif"]][j, 1]/30; j <- j + 1
+}
+
+Ex3.Sand.III.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 6))
+colnames(Ex3.Sand.III.Unif.Props) <- c("N0.2", "N0.3", "N0.5", "N0.10", "N0.20", "N0.30")
+j <- 1
+for (i in 1:1000){
+  Ex3.Sand.III.Unif.Props[i, 1] <- Ex3SimDat[["TSand.III.Unif"]][j, 1]/2; j <- j + 1
+  Ex3.Sand.III.Unif.Props[i, 2] <- Ex3SimDat[["TSand.III.Unif"]][j, 1]/3; j <- j + 1
+  Ex3.Sand.III.Unif.Props[i, 3] <- Ex3SimDat[["TSand.III.Unif"]][j, 1]/5; j <- j + 1
+  Ex3.Sand.III.Unif.Props[i, 4] <- Ex3SimDat[["TSand.III.Unif"]][j, 1]/10; j <- j + 1
+  Ex3.Sand.III.Unif.Props[i, 5] <- Ex3SimDat[["TSand.III.Unif"]][j, 1]/20; j <- j + 1
+  Ex3.Sand.III.Unif.Props[i, 6] <- Ex3SimDat[["TSand.III.Unif"]][j, 1]/30; j <- j + 1
+}
+```
+
+```{r}
+## Example Plot
+Ex1.Med.II.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex1.Med.II.Unif.Props) <- c("N0.4", "N0.6", "N0.10", "N0.20", "N0.60", "N0.90", "N0.120")
+j <- 1
+for (i in 1:1000){
+  Ex1.Med.II.Unif.Props[i, 1] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/4; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 2] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/6; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 3] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/10; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 4] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/20; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 5] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/60; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 6] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/90; j <- j + 1
+  Ex1.Med.II.Unif.Props[i, 7] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/120; j <- j + 1
+}
+N0s <- c(4, 6, 10, 20, 60, 90, 120)
+colours <- c("red3", "orange", "gold", "lightgreen", "forestgreen", "lightblue", "navy", "purple3", "orchid")
+plot(x = N0s, y = Ex1.Med.II.Unif.Props[1, ],
+     type = "l", xlab = "Initial Density", ylab = "Proportion Alive", ylim = c(0, 1))
+for (i in 2:10){
+  points(x = N0s, y = Ex1.Med.II.Unif.Props[i, ],
+         type = "l", col = colours[i - 1])
+}
+
+Ex1.Med.III.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
+colnames(Ex1.Med.III.Unif.Props) <- c("N0.4", "N0.6", "N0.10", "N0.20", "N0.60", "N0.90", "N0.120")
+j <- 1
+for (i in 1:1000){
+  Ex1.Med.III.Unif.Props[i, 1] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/4; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 2] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/6; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 3] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/10; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 4] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/20; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 5] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/60; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 6] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/90; j <- j + 1
+  Ex1.Med.III.Unif.Props[i, 7] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/120; j <- j + 1
+}
+N0s <- c(4, 6, 10, 20, 60, 90, 120)
+colours <- c("red3", "orange", "gold", "lightgreen", "forestgreen", "lightblue", "navy", "purple3", "orchid")
+plot(x = N0s, y = Ex1.Med.III.Unif.Props[1, ],
+     type = "l", xlab = "Initial Density", ylab = "Proportion Alive", ylim = c(0, 1))
+for (i in 2:10){
+  points(x = N0s, y = Ex1.Med.III.Unif.Props[i, ],
+         type = "l", col = colours[i - 1])
+}
+
+## W/ Lowess smoothing
+lowess(dead[dead$treatment=="high.c","density"], prop.dh, f = 10/10, iter = 3, delta = 0.01 * diff(range(dead[dead$treatment=="high.c","density"])))
+
+N0s <- rep(N0s, each = 1000) 
+
+Props <- c(Ex1.Med.III.Unif.Props[ , 1], Ex1.Med.III.Unif.Props[ , 2], Ex1.Med.III.Unif.Props[ , 3], Ex1.Med.III.Unif.Props[ , 4],Ex1.Med.III.Unif.Props[ , 5], Ex1.Med.III.Unif.Props[ , 6], Ex1.Med.III.Unif.Props[ , 7])
+temp <- lowess(N0s, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0s)))
+plot(temp, type = "l")
+
+Props <- c(Ex1.Med.II.Unif.Props[ , 1], Ex1.Med.II.Unif.Props[ , 2], Ex1.Med.II.Unif.Props[ , 3], Ex1.Med.II.Unif.Props[ , 4],Ex1.Med.II.Unif.Props[ , 5], Ex1.Med.II.Unif.Props[ , 6], Ex1.Med.II.Unif.Props[ , 7])
+temp <- lowess(N0s, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0s)))
+plot(temp, type = "l")
+```
