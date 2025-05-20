@@ -1,6 +1,6 @@
 require(frair)
 
-data <- read.csv("~/Documents/GitHub/GobyFunctionalResponse/Data/amphipodFRdata.csv")
+data <- read.csv(here("./Data/amphipodFRdata.csv"))
 summary(data)
 
 #Subset data by treatment

@@ -1,6 +1,6 @@
 library(frair)
 
-data <- read.csv("~/Documents/GitHub/GobyFunctionalResponse/Data/substratetypeFRdata.csv")
+data <- read.csv(here("./Data/substratetypeFRdata.csv"))
 summary(data)
 
 #Subset data by treatment

@@ -2,7 +2,7 @@
 require(frair)
 
 
-data <- read.csv("~/Documents/GitHub/GobyFunctionalResponse/Data/bloodwormFRdata.csv")
+data <- read.csv(here("./Data/bloodwormFRdata.csv"))
 summary(data)
 
 #Subset data by treatment
