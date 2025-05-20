@@ -1451,6 +1451,8 @@ legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), c
 
 ### Method (4): Visual Inspection
 
+#### Data Wrangling
+
 ```{r}
 ## Proportion DFs
 
@@ -1624,60 +1626,249 @@ for (i in 1:1000){
 }
 ```
 
+#### Lowess Smoothing
+
 ```{r}
-## Example Plot
-Ex1.Med.II.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
-colnames(Ex1.Med.II.Unif.Props) <- c("N0.4", "N0.6", "N0.10", "N0.20", "N0.60", "N0.90", "N0.120")
-j <- 1
-for (i in 1:1000){
-  Ex1.Med.II.Unif.Props[i, 1] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/4; j <- j + 1
-  Ex1.Med.II.Unif.Props[i, 2] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/6; j <- j + 1
-  Ex1.Med.II.Unif.Props[i, 3] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/10; j <- j + 1
-  Ex1.Med.II.Unif.Props[i, 4] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/20; j <- j + 1
-  Ex1.Med.II.Unif.Props[i, 5] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/60; j <- j + 1
-  Ex1.Med.II.Unif.Props[i, 6] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/90; j <- j + 1
-  Ex1.Med.II.Unif.Props[i, 7] <- Ex1SimDat[["TMed.II.Unif"]][j, 1]/120; j <- j + 1
+colours = c("red3", "orange", "gold", "lightgreen", "forestgreen", "lightblue", "navy", "purple3", "orchid", "pink")
+j <- c(1, 101, 201, 301, 401, 501, 601, 701, 801, 901)
+  
+## Experiment 1
+N0s <- c(4, 6, 10, 20, 60, 90, 120); N0sRep <- rep(N0s, each = 100) 
+# Low, II
+Ex1.LowII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex1.LowII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex1.LowII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
-N0s <- c(4, 6, 10, 20, 60, 90, 120)
-colours <- c("red3", "orange", "gold", "lightgreen", "forestgreen", "lightblue", "navy", "purple3", "orchid")
-plot(x = N0s, y = Ex1.Med.II.Unif.Props[1, ],
-     type = "l", xlab = "Initial Density", ylab = "Proportion Alive", ylim = c(0, 1))
-for (i in 2:10){
-  points(x = N0s, y = Ex1.Med.II.Unif.Props[i, ],
-         type = "l", col = colours[i - 1])
+plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
+     main = "Ex1.LowII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex1.LowII.Lowess[[i]], col = colours[i])
+}
+# Med., II
+Ex1.MedII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex1.MedII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex1.MedII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
+     main = "Ex1.MedII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex1.MedII.Lowess[[i]], col = colours[i])
+}
+# Med., III
+Ex1.MedIII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex1.MedIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex1.MedIII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
+     main = "Ex1.MedIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex1.MedIII.Lowess[[i]], col = colours[i])
+}
+# High, II
+Ex1.HighII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex1.HighII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex1.HighII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
+     main = "Ex1.HighII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex1.HighII.Lowess[[i]], col = colours[i])
+}
+# High, III
+Ex1.HighIII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex1.HighIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex1.HighIII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
+     main = "Ex1.HighIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex1.HighIII.Lowess[[i]], col = colours[i])
 }
 
-Ex1.Med.III.Unif.Props <- data.frame(matrix(NA, nrow = 1000, ncol = 7))
-colnames(Ex1.Med.III.Unif.Props) <- c("N0.4", "N0.6", "N0.10", "N0.20", "N0.60", "N0.90", "N0.120")
-j <- 1
-for (i in 1:1000){
-  Ex1.Med.III.Unif.Props[i, 1] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/4; j <- j + 1
-  Ex1.Med.III.Unif.Props[i, 2] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/6; j <- j + 1
-  Ex1.Med.III.Unif.Props[i, 3] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/10; j <- j + 1
-  Ex1.Med.III.Unif.Props[i, 4] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/20; j <- j + 1
-  Ex1.Med.III.Unif.Props[i, 5] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/60; j <- j + 1
-  Ex1.Med.III.Unif.Props[i, 6] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/90; j <- j + 1
-  Ex1.Med.III.Unif.Props[i, 7] <- Ex1SimDat[["TMed.III.Unif"]][j, 1]/120; j <- j + 1
+## Experiment 2
+N0s <- c(2, 3, 5, 10, 20, 30, 50); N0sRep <- rep(N0s, each = 100)
+# Low, II
+Ex2.LowII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex2.LowII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex2.LowII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
-N0s <- c(4, 6, 10, 20, 60, 90, 120)
-colours <- c("red3", "orange", "gold", "lightgreen", "forestgreen", "lightblue", "navy", "purple3", "orchid")
-plot(x = N0s, y = Ex1.Med.III.Unif.Props[1, ],
-     type = "l", xlab = "Initial Density", ylab = "Proportion Alive", ylim = c(0, 1))
-for (i in 2:10){
-  points(x = N0s, y = Ex1.Med.III.Unif.Props[i, ],
-         type = "l", col = colours[i - 1])
+plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
+     main = "Ex2.LowII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex2.LowII.Lowess[[i]], col = colours[i])
+}
+# Low, III
+Ex2.LowIII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex2.LowIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex2.LowIII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
+     main = "Ex2.LowIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex2.LowIII.Lowess[[i]], col = colours[i])
+}
+# Med., III
+Ex2.MedIII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex2.MedIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex2.MedIII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
+     main = "Ex2.MedIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex2.MedIII.Lowess[[i]], col = colours[i])
+}
+# High, II
+Ex2.HighII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex2.HighII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex2.HighII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
+     main = "Ex2.HighII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex2.HighII.Lowess[[i]], col = colours[i])
+}
+# High, III
+Ex2.HighIII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 6], 
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 7])
+  # Ex2.HighIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex2.HighIII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
+     main = "Ex2.HighIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex2.HighIII.Lowess[[i]], col = colours[i])
 }
 
-## W/ Lowess smoothing
-lowess(dead[dead$treatment=="high.c","density"], prop.dh, f = 10/10, iter = 3, delta = 0.01 * diff(range(dead[dead$treatment=="high.c","density"])))
-
-N0s <- rep(N0s, each = 1000) 
-
-Props <- c(Ex1.Med.III.Unif.Props[ , 1], Ex1.Med.III.Unif.Props[ , 2], Ex1.Med.III.Unif.Props[ , 3], Ex1.Med.III.Unif.Props[ , 4],Ex1.Med.III.Unif.Props[ , 5], Ex1.Med.III.Unif.Props[ , 6], Ex1.Med.III.Unif.Props[ , 7])
-temp <- lowess(N0s, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0s)))
-plot(temp, type = "l")
-
-Props <- c(Ex1.Med.II.Unif.Props[ , 1], Ex1.Med.II.Unif.Props[ , 2], Ex1.Med.II.Unif.Props[ , 3], Ex1.Med.II.Unif.Props[ , 4],Ex1.Med.II.Unif.Props[ , 5], Ex1.Med.II.Unif.Props[ , 6], Ex1.Med.II.Unif.Props[ , 7])
-temp <- lowess(N0s, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0s)))
-plot(temp, type = "l")
+# Experiment 3
+N0s <- c(2, 3, 5, 10, 20, 30); N0sRep <- rep(N0s, each = 100)
+# Rocks, II
+Ex3.RocksII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 6])
+  # Ex3.RocksII.Lowess[[i]] <- lowess(N0sRep, Props, f = 6/6, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex3.RocksII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 30), ylim = c(0, 1), 
+     main = "Ex3.RocksII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex3.RocksII.Lowess[[i]], col = colours[i])
+}
+# Sand, II
+Ex3.SandII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 6])
+  # Ex3.SandII.Lowess[[i]] <- lowess(N0sRep, Props, f = 6/6, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex3.SandII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 30), ylim = c(0, 1), 
+     main = "Ex3.SandII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex3.SandII.Lowess[[i]], col = colours[i])
+}
+# Sand, III
+Ex3.SandIII.Lowess <- vector(mode = "list", length = 10)
+for (i in 1:10){
+  Props <- c(Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 1],
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 2], 
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 3], 
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 4],
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 5], 
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 6])
+  # Ex3.SandIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 6/6, iter = 3, delta = 0.01 * diff(range(N0sRep)))
+  Ex3.SandIII.Lowess[[i]] <- lowess(N0sRep, Props)
+}
+plot(1, type = "n", xlim = c(0, 30), ylim = c(0, 1), 
+     main = "Ex3.SandIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
+for (i in 1:10){
+  lines(Ex3.SandIII.Lowess[[i]], col = colours[i])
+}
 ```
