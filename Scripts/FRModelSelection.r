@@ -1,11 +1,12 @@
 #Load packages
 require(frair)
 require(ggplot2)
+library(here)
 
 #Load data
-live <- read.csv("Data/amphipodFRdata.csv")
-dead <- read.csv("Data/bloodwormFRdata.csv")
-sub <- read.csv("Data/substratetypeFRdata.csv")
+live <- read.csv(here("./Data/amphipodFRdata.csv"))
+dead <- read.csv(here("./Data/bloodwormFRdata.csv"))
+sub <- read.csv(here("./Data/substratetypeFRdata.csv"))
 
 ####Method 1 for model selection - Juliano's method####
 ###Live prey

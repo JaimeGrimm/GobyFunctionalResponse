@@ -1,5 +1,5 @@
 #install.packages("frair")
-require(frair)
+require(frair); library(here)
 
 
 data <- read.csv(here("./Data/bloodwormFRdata.csv"))

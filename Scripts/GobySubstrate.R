@@ -1,4 +1,4 @@
-library(frair)
+library(frair); library(here)
 
 data <- read.csv(here("./Data/substratetypeFRdata.csv"))
 summary(data)

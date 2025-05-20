@@ -1,4 +1,4 @@
-require(frair)
+require(frair); library(here)
 
 data <- read.csv(here("./Data/amphipodFRdata.csv"))
 summary(data)
