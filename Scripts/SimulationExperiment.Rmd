@@ -1872,3 +1872,37 @@ for (i in 1:10){
   lines(Ex3.SandIII.Lowess[[i]], col = colours[i])
 }
 ```
+
+#### Summary
+
+Experiment 1
+
+-   Low, II: 10/10 Correct
+
+-   Med., II: 10/10 Correct
+
+-   Med., III: 0/10 Correct
+
+-   High, II: 10/10 Correct
+
+-   High, III, 0/10 Correct
+
+Experiment 2
+
+-   Low, II: 8/10 Correct
+
+-   Low, III: 3/10 Correct
+
+-   Med., III: 10/10 Correct
+
+-   High, II: 9/10 Correct
+
+-   High, III, 10/10 Correct
+
+Experiment 3
+
+-   Rocks, II: 9/10 Correct
+
+-   Sand, II: 8/10 Correct
+
+-   Sand, III: 1/10 Correct
