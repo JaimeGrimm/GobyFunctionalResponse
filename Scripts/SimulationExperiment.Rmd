@@ -1376,41 +1376,36 @@ axis(1, at = 1:6, labels = Cases, las = 2)
 Ex1.Prop.J <- readRDS(here("./SimOutputs/Ex1Prop_Juliano.rds"))
 Ex1.Prop.F <- readRDS(here("./SimOutputs/Ex1Prop_FlexFR.rds"))
 
-# Cases <- c("TLow.II.Unif", "TMed.II.Unif", "TMed.III.Unif", "THigh.II.Unif", "THigh.III.Unif")
-# plot(x = 1:5, y = as.numeric(Ex1.Prop.J[c(1, 3, 5, 7, 9), 1]), col = alpha(c("forestgreen", "forestgreen", "red3", "forestgreen", "red3"), 0.2), pch = 19, cex = 2,
-#      main = "Experiment 1", xlab = "", ylab = "Number of Simulations (/1000)",
-#      ylim = c(0, 1000), xaxt = "n")
-# points(x = 1:5, y = as.numeric(Ex1.Prop.J[c(1, 3, 5, 7, 9), 2]), col = alpha(c("red3", "red3", "forestgreen", "red3", "forestgreen"), 0.2), pch = 19, cex = 2)
-# points(x = 1:5, y = as.numeric(Ex1.Prop.J[c(1, 3, 5, 7, 9), 3]), col = "grey", pch = 4, cex = 2)
-# points(x = 1:5, y = as.numeric(Ex1.Prop.F[c(1, 3, 5, 7, 9), 1]), col = alpha(c("forestgreen", "forestgreen", "red3", "forestgreen", "red3"), 0.2), pch = 15, cex = 2)
-# points(x = 1:5, y = as.numeric(Ex1.Prop.F[c(1, 3, 5, 7, 9), 2]), col = alpha(c("red3", "red3", "forestgreen", "red3", "forestgreen"), 0.2), pch = 15, cex = 2)
-# points(x = 1:5, y = as.numeric(Ex1.Prop.F[c(1, 3, 5, 7, 9), 3]), col = "grey", pch = 4, cex = 2)
-# axis(1, at = 1:5, labels = c("Low, II", "Med., II", "Med., III", "High, II", "High, III"))
-
 Ex1.Unif.Js <- c(Ex1.Prop.J[1,1], Ex1.Prop.J[3,1], Ex1.Prop.J[5,2], Ex1.Prop.J[7,1], Ex1.Prop.J[9,2])
 Ex1.Unif.Flex <- c(Ex1.Prop.F[1,1], Ex1.Prop.F[3,1], Ex1.Prop.F[5,2], Ex1.Prop.F[7,1], Ex1.Prop.F[9,2])
 par(mar = c(5.1, 4.1, 4.1, 9.1), xpd = TRUE)
 Cases <- c("TLow.II.Unif", "TMed.II.Unif", "TMed.III.Unif", "THigh.II.Unif", "THigh.III.Unif")
-plot(x = 1:5, y = Ex1.Unif.Js, col = alpha("orchid", 0.4), pch = 19, cex = 2,
+plot(x = 1:5, y = Ex1.Unif.Js, col = alpha("orchid", 0.5), pch = 19, cex = 2,
      main = "Experiment 1 (Draw from 'runif')", xlab = "", ylab = "Number of Simulations (/1000)",
      ylim = c(0, 1000), xaxt = "n")
-points(x = 1:5, y = Ex1.Unif.Flex, col = alpha("goldenrod2", 0.4), pch = 19, cex = 2)
+points(x = 1:5, y = Ex1.Unif.Flex, col = alpha("goldenrod2", 0.5), pch = 19, cex = 2)
 axis(1, at = 1:5, labels = c("Low, II", "Med., II", "Med., III", "High, II", "High, III"))
-legend("topright", inset = c(-0.4, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19)
+legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19, cex = 1, bty = "n")
 
 Ex1.Unif.Js <- c(Ex1.Prop.J[2,1], Ex1.Prop.J[4,1], Ex1.Prop.J[6,2], Ex1.Prop.J[8,1], Ex1.Prop.J[10,2])
 Ex1.Unif.Flex <- c(Ex1.Prop.F[2,1], Ex1.Prop.F[4,1], Ex1.Prop.F[6,2], Ex1.Prop.F[8,1], Ex1.Prop.F[10,2])
 par(mar = c(5.1, 4.1, 4.1, 9.1), xpd = TRUE)
 Cases <- c("TLow.II.Unif", "TMed.II.Unif", "TMed.III.Unif", "THigh.II.Unif", "THigh.III.Unif")
-plot(x = 1:5, y = Ex1.Unif.Js, col = alpha("orchid", 0.4), pch = 19, cex = 2,
+plot(x = 1:5, y = Ex1.Unif.Js, col = alpha("orchid", 0.5), pch = 19, cex = 2,
      main = "Experiment 1 (Draw from 'rnorm')", xlab = "", ylab = "Number of Simulations (/1000)",
      ylim = c(0, 1000), xaxt = "n")
 points(x = 1:5, y = Ex1.Unif.Flex, col = alpha("goldenrod2", 0.4), pch = 19, cex = 2)
 axis(1, at = 1:5, labels = c("Low, II", "Med., II", "Med., III", "High, II", "High, III"))
-legend("topright", inset = c(-0.4, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19)
+legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19, cex = 1, bty = "n")
 
 Ex2.Prop.J <- readRDS("SimOutputs/Ex2Prop_Juliano.rds")
 Ex2.Prop.F <- readRDS("SimOutputs/Ex2Prop_FlexFR.rds")
+
+
+
+
+
+
 Ex3.Prop.J <- readRDS("SimOutputs/Ex3Prop_Juliano.rds")
 Ex3.Prop.F <- readRDS("SimOutputs/Ex3Prop_FlexFR.rds")
 
