@@ -1,6 +1,11 @@
 # Simulation Experiment
 
-Here, we will (1) simulate FR data, (2) fit FR models to the simulated data, and (3) select the "best fit" model using AIC, Juliano's, visual inspection, generalized FR model w/ scaling exponent.
+Here, we will (1) simulate FR data, (2) fit FR models to the simulated data, and (3) select the "best fit" model using:
+
+1.  Juliano's
+2.  A generalized FR model w/ scaling exponent
+3.  Visual inspection
+4.  AIC
 
 Empirically, Grimm et al. conducted three experiments, within which three, three, and two treatments we applied, resulting in eight data sets. From here, Rogers' Type II and Hassell's Type III functional response models were fit to the data. We will use estimated parameter values from each experiment and treatment to simulate each of these two models, 1000 times.
 
@@ -26,6 +31,12 @@ Where $b$, and $c$ are free parameters.
 library(frair); library(lamW); library(tidyverse); library(here)
 ```
 
+Per the `FRAIR` package, "The fact that $N_e$ appears on both side of the equation [for Rogers' Type II functional response], poses some problems, but can be efficiently dealt with using Lambert's transcendental equation (Bolker, 2008). `FRAIR` uses the `lambertW0` function from the `lamW` package and uses this function internally as:
+
+`Ne <- X - lambertW0(a * h * X * exp(-a * (T - h * X)))/(a * h)`
+
+where $X = N_0$." To write Hassell's Type III functional response, we replace `a` with `(b*X)/(1 + c*X)`.
+
 ```{r}
 ## Rogers' Type II Model
 RogersII <- function(N0, a, h, time){
@@ -39,24 +50,57 @@ HassellIII <- function(N0, b, c, h, time){
 }
 
 # Test
-N0s <- seq(5, 150, 5)
-Outputs <- c()
+N0s <- seq(1, 150, 1)
+Ne <- c()
 for (i in 1:length(N0s)){
-  Outputs[i] <- RogersII(N0s[i], 0.2, 0.2, 2)
+  Ne[i] <- RogersII(N0s[i], 0.2, 0.2, 2)
 }
-plot(N0s, Outputs)
+plot(N0s, Ne, main = "Rogers' Type II Functional Response")
 
-N0s <- seq(5, 150, 5)
-Outputs <- c()
+N0s <- seq(1, 150, 1)
+Ne <- c()
 for (i in 1:length(N0s)){
-  Outputs[i] <- HassellIII(N0s[i], 0.1, 0.1, 0.02, 2)
+  Ne[i] <- HassellIII(N0s[i], 0.1, 0.1, 0.02, 2)
 }
-plot(N0s, Outputs)
+plot(N0s, Ne, main = "Hassell's Type III Functional Response")
 ```
 
-Parameter Estimates by Experiment and Treatment:
+[Parameter Estimates by Experiment and Treatment](https://docs.google.com/spreadsheets/d/1oGCKVAigW9UiNIdo2o0YO_gVQ8yaCcvXJf1FVvYEjuM/edit?gid=0#gid=0):
 
-...
+| Treatment     | Model             | Parameter | Lower CI | Point Estimate | Upper CI          |
+|---------------|-------------------|-----------|----------|----------------|-------------------|
+| Ex. 1, Low    | Rogers, Type II   | a         | 0.489    | 1.704          | 3.598             |
+|               |                   | h         | 0.055    | 0.072          | 0.094             |
+| Ex. 1, Medium | Rogers, Type II   | a         | 0.706    | 1.036          | 1.458             |
+|               |                   | h         | 0.033    | 0.046          | 0.059             |
+|               | Hassell, Type III | b         | 0.218    | 5.303          | **1,686,863.823** |
+|               |                   | c         | 0.049    | 5.000          | **1,796,176.396** |
+|               |                   | h         | 0.033    | 0.046          | 0.060             |
+| Ex. 1, High   | Rogers, Type II   | a         | 0.224    | 0.607          | 1.055             |
+|               |                   | h         | 0.028    | 0.055          | 0.091             |
+|               | Hassell, Type III | b         | 0.079    | 0.537          | **1,072,285.537** |
+|               |                   | c         | 0.000    | 0.758          | **2,227,240.993** |
+|               |                   | h         | 0.008    | 0.058          | 0.088             |
+| Ex. 2, Low    | Rogers, Type II   | a         | 0.262    | 0.477          | 0.752             |
+|               |                   | h         | 0        | 0.038          | 0.132             |
+|               | Hassell, Type III | b         | 0.062    | 0.191          | **197,962.248**   |
+|               |                   | c         | 0.000    | 0.239          | **533,631.835**   |
+|               |                   | h         | 0.000    | 0.061          | 0.143             |
+| Ex. 2, Medium | Hassell, Type III | b         | 0.013    | 0.039          | **323,804.821**   |
+|               |                   | c         | 0.000    | 0.180          | **3,514,096.291** |
+|               |                   | h         | 0.000    | 0.067          | 0.274             |
+| Ex. 2, High   | Rogers, Type II   | a         | 0.086    | 0.144          | 0.207             |
+|               |                   | h         | 0.000    | 0.046          | 0.257             |
+|               | Hassell, Type III | b         | 0.010    | 0.024          | 0.068             |
+|               |                   | c         | 0.000    | 0.026          | 2.007             |
+|               |                   | h         | 0.000    | 0.181          | 0.420             |
+| Ex. 3, Rocks  | Rogers, Type II   | a         | 0.075    | 0.131          | 0.211             |
+|               |                   | h         | 0.000    | 0.102          | 0.293             |
+| Ex. 3, Sand   | Rogers, Type II   | a         | 0.488    | 0.848          | 1.516             |
+|               |                   | h         | 0.000    | 0.048          | 0.249             |
+|               | Hassell, Type III | b         | 0.221    | 1.181          | **3,338,468.210** |
+|               |                   | c         | 0.000    | 1.163          | **1,780,576.771** |
+|               |                   | h         | 0.000    | 0.058          | 0.289             |
 
 ## Simulations
 
@@ -174,7 +218,7 @@ N0 <- c(4, 6, 10, 20, 60, 90, 120)
 set.seed(123)
 b.vec <- sample(seq(0.218, 1686863.823/100000, 0.001), 1000, replace = TRUE) 
 c.vec <- sample(seq(0.049, 1796176.396/100000, 0.001), 1000, replace = TRUE) 
-h.vec <- sample(seq(0.033, 0.06, 0.001), 1000, replace = TRUE)
+h.vec <- sample(seq(0.033, 0.060, 0.001), 1000, replace = TRUE)
 Ex1.TMed.III.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
   for (j in 1:1000){
@@ -365,8 +409,8 @@ N0 <- c(2, 3, 5, 10, 20, 30, 50)
 
 # Simulations
 
-b.vec <- sample(seq(0.062, 197962.2481/100000, 0.001), 1000, replace = TRUE) 
-c.vec <- sample(seq(0.000, 533631.8351/100000, 0.001), 1000, replace = TRUE) 
+b.vec <- sample(seq(0.062, 197962.248/100000, 0.001), 1000, replace = TRUE) 
+c.vec <- sample(seq(0.000, 533631.835/100000, 0.001), 1000, replace = TRUE) 
 h.vec <- sample(seq(0.000, 0.143, 0.001), 1000, replace = TRUE)
 Ex2.TLow.III.Unif <- vector(mode = 'list', length = length(N0))
 for (i in 1:length(N0)){
@@ -833,6 +877,7 @@ Ex1SimDat <- list(TLow.II.Unif, TLow.II.Norm,
 names(Ex1SimDat) <- c("TLow.II.Unif", "TLow.II.Norm",
                       "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
                       "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+saveRDS(Ex1SimDat, here("./SimOutputs/Ex1SimDat.rds"))
 ```
 
 #### Experiment 2
@@ -966,6 +1011,7 @@ Ex2SimDat <- list(TLow.II.Unif, TLow.II.Norm, TLow.III.Unif, TLow.III.Norm,
 names(Ex2SimDat) <- c("TLow.II.Unif", "TLow.II.Norm", "TLow.III.Unif", "TLow.III.Norm",
                       "TMed.III.Unif", "TMed.III.Norm",
                       "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+saveRDS(Ex2SimDat, here("./SimOutputs/Ex2SimDat.rds"))
 ```
 
 #### Experiment 3
@@ -1043,6 +1089,7 @@ Ex3SimDat <- list(TRocks.II.Unif, TRocks.II.Norm,
                   TSand.II.Unif, TSand.II.Norm, TSand.III.Unif, TSand.III.Norm)
 names(Ex3SimDat) <- c("TRocks.II.Unif", "TRocks.II.Norm",
                       "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
+saveRDS(Ex3SimDat, here("./SimOutputs/Ex3SimDat.rds"))
 ```
 
 ### Method (1): Juliano's
@@ -1626,251 +1673,359 @@ for (i in 1:1000){
 }
 ```
 
-#### Lowess Smoothing
+#### Lowess Smoothing (20 Groups of 50 Sims)
 
 ```{r}
-colours = c("red3", "orange", "gold", "lightgreen", "forestgreen", "lightblue", "navy", "purple3", "orchid", "pink")
-j <- c(1, 101, 201, 301, 401, 501, 601, 701, 801, 901)
+colours <- c("#A51E1C", "#DABF40", "#97FD34", "#6215C9", "#EB1B41", 
+             "#91BB7F", "#7F6062", "#DE31C2", "#4F799E", "#4DC669", 
+             "#006244", "#8803E7", "#EEA4F4", "#1C23A2", "#EF7C3A", 
+             "#B74C83", "#53B5E5", "#B3AFDC", "#30525B", "#021D45")
+j <- c(1, 51, 101, 151, 201, 251, 301, 351, 401, 451,
+       501, 551, 601, 651, 701, 751, 801, 851, 901, 951)
   
 ## Experiment 1
-N0s <- c(4, 6, 10, 20, 60, 90, 120); N0sRep <- rep(N0s, each = 100) 
+N0s <- c(4, 6, 10, 20, 60, 90, 120); N0sRep <- rep(N0s, each = 50) 
 # Low, II
 Ex1.LowII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 99), 7])
+for (i in 1:20){
+  Props <- c(Ex1.Low.II.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex1.Low.II.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex1.LowII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex1.LowII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
-     main = "Ex1.LowII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex1.LowII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex1.LowII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex1_LowII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex1.LowII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 120), ylim = c(0, 1), 
+       main = "Ex1.LowII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # Med., II
-Ex1.MedII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 99), 7])
+Ex1.MedII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex1.Med.II.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex1.Med.II.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex1.MedII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex1.MedII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
-     main = "Ex1.MedII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex1.MedII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex1.MedII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex1_MedII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex1.MedII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 120), ylim = c(0, 1), 
+       main = "Ex1.MedII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # Med., III
-Ex1.MedIII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 99), 7])
+Ex1.MedIII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex1.Med.III.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex1.Med.III.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex1.MedIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex1.MedIII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
-     main = "Ex1.MedIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex1.MedIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex1.MedIII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex1_MedIII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex1.MedIII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 120), ylim = c(0, 1), 
+       main = "Ex1.MedIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # High, II
-Ex1.HighII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex1.High.II.Unif.Props[j[i]:(j[i] + 99), 7])
+Ex1.HighII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex1.High.II.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex1.High.II.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex1.HighII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex1.HighII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
-     main = "Ex1.HighII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex1.HighII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex1.HighII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex1_HighII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex1.HighII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 120), ylim = c(0, 1), 
+       main = "Ex1.HighII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # High, III
-Ex1.HighIII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex1.High.III.Unif.Props[j[i]:(j[i] + 99), 7])
+Ex1.HighIII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex1.High.III.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex1.High.III.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex1.HighIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex1.HighIII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 120), ylim = c(0, 1), 
-     main = "Ex1.HighIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex1.HighIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex1.HighIII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex1_HighIII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex1.HighIII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 120), ylim = c(0, 1), 
+       main = "Ex1.HighIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 
 ## Experiment 2
-N0s <- c(2, 3, 5, 10, 20, 30, 50); N0sRep <- rep(N0s, each = 100)
+N0s <- c(2, 3, 5, 10, 20, 30, 50); N0sRep <- rep(N0s, each = 50)
 # Low, II
-Ex2.LowII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 99), 7])
+Ex2.LowII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex2.Low.II.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex2.Low.II.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex2.LowII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex2.LowII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
-     main = "Ex2.LowII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex2.LowII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex2.LowII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex2_LowII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex2.LowII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 50), ylim = c(0, 1), 
+       main = "Ex2.LowII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # Low, III
-Ex2.LowIII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 99), 7])
+Ex2.LowIII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex2.Low.III.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex2.Low.III.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex2.LowIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex2.LowIII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
-     main = "Ex2.LowIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex2.LowIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex2.LowIII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex2_LowIII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex2.LowIII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 50), ylim = c(0, 1), 
+       main = "Ex2.LowIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # Med., III
-Ex2.MedIII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 99), 7])
+Ex2.MedIII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex2.Med.III.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex2.Med.III.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex2.MedIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex2.MedIII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
-     main = "Ex2.MedIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex2.MedIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex2.MedIII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex2_MedIII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex2.MedIII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 50), ylim = c(0, 1), 
+       main = "Ex2.MedIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # High, II
-Ex2.HighII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex2.High.II.Unif.Props[j[i]:(j[i] + 99), 7])
+Ex2.HighII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex2.High.II.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex2.High.II.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex2.HighII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex2.HighII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
-     main = "Ex2.HighII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex2.HighII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex2.HighII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex2_HighII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex2.HighII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 50), ylim = c(0, 1), 
+       main = "Ex2.HighII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # High, III
-Ex2.HighIII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 6], 
-             Ex2.High.III.Unif.Props[j[i]:(j[i] + 99), 7])
+Ex2.HighIII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex2.High.III.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 49), 6], 
+             Ex2.High.III.Unif.Props[j[i]:(j[i] + 49), 7])
   # Ex2.HighIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 7/7, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex2.HighIII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 50), ylim = c(0, 1), 
-     main = "Ex2.HighIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex2.HighIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex2.HighIII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex2_HighIII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex2.HighIII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 50), ylim = c(0, 1), 
+       main = "Ex2.HighIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 
 # Experiment 3
-N0s <- c(2, 3, 5, 10, 20, 30); N0sRep <- rep(N0s, each = 100)
+N0s <- c(2, 3, 5, 10, 20, 30); N0sRep <- rep(N0s, each = 50)
 # Rocks, II
-Ex3.RocksII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 99), 6])
+Ex3.RocksII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex3.Rocks.II.Unif.Props[j[i]:(j[i] + 49), 6])
   # Ex3.RocksII.Lowess[[i]] <- lowess(N0sRep, Props, f = 6/6, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex3.RocksII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 30), ylim = c(0, 1), 
-     main = "Ex3.RocksII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex3.RocksII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex3.RocksII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex3_RocksII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex3.RocksII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 30), ylim = c(0, 1), 
+       main = "Ex3.RocksII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # Sand, II
-Ex3.SandII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 99), 6])
+Ex3.SandII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex3.Sand.II.Unif.Props[j[i]:(j[i] + 49), 6])
   # Ex3.SandII.Lowess[[i]] <- lowess(N0sRep, Props, f = 6/6, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex3.SandII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 30), ylim = c(0, 1), 
-     main = "Ex3.SandII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex3.SandII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex3.SandII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex3_SandII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex3.SandII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 30), ylim = c(0, 1), 
+       main = "Ex3.SandII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 # Sand, III
-Ex3.SandIII.Lowess <- vector(mode = "list", length = 10)
-for (i in 1:10){
-  Props <- c(Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 1],
-             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 2], 
-             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 3], 
-             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 4],
-             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 5], 
-             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 99), 6])
+Ex3.SandIII.Lowess <- vector(mode = "list", length = 20)
+for (i in 1:20){
+  Props <- c(Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 49), 1],
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 49), 2], 
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 49), 3], 
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 49), 4],
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 49), 5], 
+             Ex3.Sand.III.Unif.Props[j[i]:(j[i] + 49), 6])
   # Ex3.SandIII.Lowess[[i]] <- lowess(N0sRep, Props, f = 6/6, iter = 3, delta = 0.01 * diff(range(N0sRep)))
   Ex3.SandIII.Lowess[[i]] <- lowess(N0sRep, Props)
 }
+par(mfrow = c(1, 1))
 plot(1, type = "n", xlim = c(0, 30), ylim = c(0, 1), 
-     main = "Ex3.SandIII.Lowess", ylab = "Initial Density", xlab = "Proportion")
-for (i in 1:10){
+     main = "Ex3.SandIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+for (i in 1:20){
   lines(Ex3.SandIII.Lowess[[i]], col = colours[i])
 }
+png(file = here("./SimOutputs/Plots/Ex3_SandIII_Lowess.png"), width = 1800, height = 900)
+par(mfrow = c(4, 5))
+for (i in 1:20){
+  plot(Ex3.SandIII.Lowess[[i]], col = colours[i], type = "l", xlim = c(0, 30), ylim = c(0, 1), 
+       main = "Ex3.SandIII.Lowess", ylab = "Proportion", xlab = "Initial Density")
+}
+dev.off()
 ```
 
 #### Summary
