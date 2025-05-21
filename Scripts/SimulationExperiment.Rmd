@@ -68,7 +68,7 @@ plot(N0s, Ne, main = "Hassell's Type III Functional Response")
 [Parameter Estimates by Experiment and Treatment](https://docs.google.com/spreadsheets/d/1oGCKVAigW9UiNIdo2o0YO_gVQ8yaCcvXJf1FVvYEjuM/edit?gid=0#gid=0):
 
 | Treatment     | Model             | Parameter | Lower CI | Point Estimate | Upper CI          |
-|---------------|-------------------|-----------|----------|----------------|-------------------|
+|------------|------------|------------|------------|------------|------------|
 | Ex. 1, Low    | Rogers, Type II   | a         | 0.489    | 1.704          | 3.598             |
 |               |                   | h         | 0.055    | 0.072          | 0.094             |
 | Ex. 1, Medium | Rogers, Type II   | a         | 0.706    | 1.036          | 1.458             |
@@ -1499,7 +1499,45 @@ legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), c
 ### Method (3): AIC
 
 ```{r}
-
+## Experiment 1
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+Out.List.Outer <-  vector(mode = 'list', length = length(Ex1SimDat)) 
+suppressWarnings({
+for (i in 1:length(Ex1SimDat)){
+  Out.List.Inner <-  vector(mode = 'list', length = 1000)
+  m <- 1; n <- 7
+  for (j in 1:1000){
+    SimDat <- Ex1SimDat[[i]][m:n, ]
+    Output.II <- frair_fit(Ne ~ N0, data = SimDat, response = 'rogersII',
+                           start = list(a = 1, h = 0.1), fixed = list(T = 2))
+    Output.III <- frair_fit(Ne ~ N0, data = SimDat, response = 'hassIIInr',
+                            start = list(b = 1, c = 1, h = 0.1), fixed = list(T = 2))
+    AIC.Out <- ICtab(c(Output.II$fit, Output.III$fit), type = "AICc",
+                     mnames = c("Output.II$fit", "Output.III$fit"), 
+                     weights = TRUE, nobs = nrow(SimDat))
+    Output <- if (AIC.Out$dAICc[1] == 0 & (AIC.Out$dAICc[1] + 2) < AIC.Out$dAICc[2]) {
+      "type-II response"
+    } else if (AIC.Out$dAICc[2] == 0 & (AIC.Out$dAICc[2] + 2) < AIC.Out$dAICc[1]) {
+      "type-III response"
+    } else {
+      "No evidence for any response."
+    }
+    Out.List.Inner[[j]] <- Output
+    m <- m + 7; n <- n + 7
+  }
+  Out.List.Outer[[i]] <- Out.List.Inner
+}})
+Ex1.Prop <- c() 
+for (i in 1:length(Ex1SimDat)){
+  II.III.NA <- c(length(which(Out.List.Outer[[i]] == "type-II response")),
+                 length(which(Out.List.Outer[[i]] == "type-III response")),
+                 length(which(Out.List.Outer[[i]] == "No evidence for any response.")))
+  Ex1.Prop <- rbind(Ex1.Prop, II.III.NA)
+}
+colnames(Ex1.Prop) <- c("II", "III", "NA")
+rownames(Ex1.Prop) <- c("TLow.II.Unif", "TLow.II.Norm",
+                        "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
+                        "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
 ```
 
 ### Method (4): Visual Inspection
@@ -1679,7 +1717,7 @@ for (i in 1:1000){
 }
 ```
 
-#### Lowess Smoothing (20 Groups of 50 Sims)
+#### Lowess Smoothing (20 Groups of 50 Simulations)
 
 ```{r}
 colours <- c("#A51E1C", "#DABF40", "#97FD34", "#6215C9", "#EB1B41", 
