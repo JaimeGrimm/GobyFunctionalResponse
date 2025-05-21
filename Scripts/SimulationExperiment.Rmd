@@ -1417,7 +1417,7 @@ points(x = 1:6, y = as.numeric(Ex3.Prop[ ,3]), col = "goldenrod2", pch = 19)
 axis(1, at = 1:6, labels = Cases, las = 2)
 ```
 
-## Plotting Together
+### Plotting Methods (1) and (2) Together
 
 ```{r}
 Ex1.Prop.J <- readRDS(here("./SimOutputs/Ex1Prop_Juliano.rds"))
@@ -1494,6 +1494,12 @@ plot(x = 1:3, y = Ex3.Norm.Js, col = alpha("orchid", 0.5), pch = 19, cex = 2,
 points(x = 1:3, y = Ex3.Norm.Flex, col = alpha("goldenrod2", 0.5), pch = 19, cex = 2)
 axis(1, at = 1:3, labels = c("Rocks, II", "Sand, II", "Sand, III"))
 legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), col = c("orchid", "goldenrod2"), pch = 19, cex = 1, bty = "n")
+```
+
+### Method (3): AIC
+
+```{r}
+
 ```
 
 ### Method (4): Visual Inspection
@@ -2032,32 +2038,32 @@ dev.off()
 
 Experiment 1
 
--   Low, II: 10/10 Correct
+-   Low, II: 20/20 Correct
 
--   Med., II: 10/10 Correct
+-   Med., II: 20/20 Correct
 
--   Med., III: 0/10 Correct
+-   Med., III: 0/20 Correct
 
--   High, II: 10/10 Correct
+-   High, II: 20/20 Correct
 
--   High, III, 0/10 Correct
+-   High, III, 0/20 Correct
 
 Experiment 2
 
--   Low, II: 8/10 Correct
+-   Low, II: 18/20 Correct
 
--   Low, III: 3/10 Correct
+-   Low, III: 5/20 Correct
 
--   Med., III: 10/10 Correct
+-   Med., III: 20/20 Correct
 
--   High, II: 9/10 Correct
+-   High, II: 18/20 Correct
 
--   High, III, 10/10 Correct
+-   High, III, 20/20 Correct
 
 Experiment 3
 
--   Rocks, II: 9/10 Correct
+-   Rocks, II: 17/20 Correct
 
--   Sand, II: 8/10 Correct
+-   Sand, II: 20/20 Correct
 
--   Sand, III: 1/10 Correct
+-   Sand, III: 0/20 Correct
