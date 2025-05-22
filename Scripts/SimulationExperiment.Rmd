@@ -1515,9 +1515,9 @@ for (i in 1:length(Ex1SimDat)){
     AIC.Out <- ICtab(c(Output.II$fit, Output.III$fit), type = "AICc",
                      mnames = c("Output.II$fit", "Output.III$fit"), 
                      weights = TRUE, nobs = nrow(SimDat))
-    Output <- if (AIC.Out$dAICc[1] == 0 & (AIC.Out$dAICc[1] + 2) < AIC.Out$dAICc[2]) {
+    Output <- if (AIC.Out$dAICc[1] == 0 & (AIC.Out$dAICc[1] + 2) <= AIC.Out$dAICc[2]) {
       "type-II response"
-    } else if (AIC.Out$dAICc[2] == 0 & (AIC.Out$dAICc[2] + 2) < AIC.Out$dAICc[1]) {
+    } else if (AIC.Out$dAICc[2] == 0 & (AIC.Out$dAICc[2] + 2) <= AIC.Out$dAICc[1]) {
       "type-III response"
     } else {
       "No evidence for any response."
@@ -1538,6 +1538,63 @@ colnames(Ex1.Prop) <- c("II", "III", "NA")
 rownames(Ex1.Prop) <- c("TLow.II.Unif", "TLow.II.Norm",
                         "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
                         "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
+```
+
+**TRYING TO WORK OUT THE WARNING: COULDN'T INVERT HESSIAN STUFF**
+
+```{r}
+
+
+for (i in 1:10){
+  results[i] <-
+  tryCatch({
+  log(i-5)}, warning = function(w) {
+    cat("A warning occurred:", conditionMessage(w), "\n")
+    "Couldn't invert Hessian"
+  }
+  )
+}
+results
+
+
+
+
+N0 <- c(4, 6, 10, 20, 60, 90, 120)
+Out.List.Outer <-  vector(mode = 'list', length = length(Ex1SimDat)) 
+suppressWarnings({
+for (i in 1:length(Ex1SimDat)){
+  Out.List.Inner <-  vector(mode = 'list', length = 1000)
+  m <- 1; n <- 7
+  for (j in 1:1000){
+    SimDat <- Ex1SimDat[[i]][m:n, ]
+    Output.II <- tryCatch({frair_fit(Ne ~ N0, data = SimDat, response = 'rogersII',
+                           start = list(a = 1, h = 0.1), fixed = list(T = 2))},
+                          warning = function(w) {
+                             cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
+                             "Couldn't invert Hessian"})
+    Output.III <- tryCatch({frair_fit(Ne ~ N0, data = SimDat, response = 'hassIIInr',
+                            start = list(b = 1, c = 1, h = 0.1), fixed = list(T = 2))},
+                           warning = function(w) {
+                             cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
+                             "Couldn't invert Hessian"})
+    if (is.list(Output.II) & is.list(Output.III)) {
+    AIC.Out <- ICtab(c(Output.II$fit, Output.III$fit), type = "AICc",
+                     mnames = c("Output.II$fit", "Output.III$fit"), 
+                     weights = TRUE, nobs = nrow(SimDat))}
+    Output <- if (!is.list(Output.II) | !is.list(Output.III)) {
+      "Couldn't invert Hessian"
+    } else if  (AIC.Out$dAICc[1] == 0 & (AIC.Out$dAICc[1] + 2) <= AIC.Out$dAICc[2]) {
+      "type-II response"
+    } else if (AIC.Out$dAICc[2] == 0 & (AIC.Out$dAICc[2] + 2) <= AIC.Out$dAICc[1]) {
+      "type-III response"
+    } else {
+      "No evidence for any response."
+    }
+    Out.List.Inner[[j]] <- Output
+    m <- m + 7; n <- n + 7
+  }
+  Out.List.Outer[[i]] <- Out.List.Inner
+}})
 ```
 
 ### Method (4): Visual Inspection
