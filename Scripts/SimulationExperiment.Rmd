@@ -68,7 +68,7 @@ plot(N0s, Ne, main = "Hassell's Type III Functional Response")
 [Parameter Estimates by Experiment and Treatment](https://docs.google.com/spreadsheets/d/1oGCKVAigW9UiNIdo2o0YO_gVQ8yaCcvXJf1FVvYEjuM/edit?gid=0#gid=0):
 
 | Treatment     | Model             | Parameter | Lower CI | Point Estimate | Upper CI          |
-|------------|------------|------------|------------|------------|------------|
+|---------------|-------------------|-----------|----------|----------------|-------------------|
 | Ex. 1, Low    | Rogers, Type II   | a         | 0.489    | 1.704          | 3.598             |
 |               |                   | h         | 0.055    | 0.072          | 0.094             |
 | Ex. 1, Medium | Rogers, Type II   | a         | 0.706    | 1.036          | 1.458             |
@@ -1136,7 +1136,10 @@ for (i in 1:length(Ex1SimDat)){
     Output <- tryCatch({frair_test(formula = Ne ~ N0, data = SimDat)},
                        warning = function(w) {
                          cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
-                         "Couldn't invert Hessian"})
+                             "Warning or Error"},
+                       error = function(e) {
+                         cat("Error in frfunc", conditionMessage(e), "\n")
+                         "Warning or Error"})
     Out.List.Inner[[j]] <- Output
     m <- m + 7; n <- n + 7
   }
@@ -1144,14 +1147,21 @@ for (i in 1:length(Ex1SimDat)){
 }})
 Ex1.Prop <- c() 
 for (i in 1:length(Ex1SimDat)){
-  Temp <- c(lapply(Out.List.Outer[[i]], getType.Juliano))
-  CIH.II.III.NA <- c(length(which(Out.List.Outer[[i]] == "Couldn't invert Hessian")),
-                     length(which(Out.List.Outer[[i]] == "type-II response")),
-                     length(which(Out.List.Outer[[i]] == "type-III response")),
-                     length(which(Out.List.Outer[[i]] == "No evidence for any response.")))
+  Temp <- c()
+  for (j in 1:length(Out.List.Outer[[i]])){
+    Temp[j] <- if (!is.list(Out.List.Outer[[i]][[j]])){
+      "Warning or Error"
+    } else {
+      getType.Juliano(Out.List.Outer[[i]][[j]])
+    }
+  }
+  CIH.II.III.NA <- c(length(which(Temp == "Warning or Error")),
+                     length(which(Temp == "type-II response")),
+                     length(which(Temp == "type-III response")),
+                     length(which(Temp == "No evidence for any response.")))
   Ex1.Prop <- rbind(Ex1.Prop, CIH.II.III.NA)
 }
-colnames(Ex1.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
+colnames(Ex1.Prop) <- c("Warning or Error", "II", "III", "No Evidence")
 rownames(Ex1.Prop) <- c("TLow.II.Unif", "TLow.II.Norm",
                         "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
                         "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
@@ -1165,8 +1175,13 @@ for (i in 1:length(Ex2SimDat)){
   m <- 1; n <- 7
   for (j in 1:1000){
     SimDat <- Ex2SimDat[[i]][m:n, ]
-    SimDat <- SimDat %>% replace(is.na(.), 0) # Gives no response
-    Output <- frair_test(formula = Ne ~ N0, data = SimDat)
+    Output <- tryCatch({frair_test(formula = Ne ~ N0, data = SimDat)},
+                       warning = function(w) {
+                         cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
+                             "Warning or Error"},
+                       error = function(e) {
+                         cat("Error in frfunc", conditionMessage(e), "\n")
+                         "Warning or Error"})
     Out.List.Inner[[j]] <- Output
     m <- m + 7; n <- n + 7
   }
@@ -1174,11 +1189,18 @@ for (i in 1:length(Ex2SimDat)){
 }})
 Ex2.Prop <- c() 
 for (i in 1:length(Ex2SimDat)){
-  Temp <- c(lapply(Out.List.Outer[[i]], getType.Juliano))
-  CIH.II.III.NA <- c(length(which(Out.List.Outer[[i]] == "Couldn't invert Hessian")),
-                     length(which(Out.List.Outer[[i]] == "type-II response")),
-                     length(which(Out.List.Outer[[i]] == "type-III response")),
-                     length(which(Out.List.Outer[[i]] == "No evidence for any response.")))
+  Temp <- c()
+  for (j in 1:length(Out.List.Outer[[i]])){
+    Temp[j] <- if (!is.list(Out.List.Outer[[i]][[j]])){
+      "Warning or Error"
+    } else {
+      getType.Juliano(Out.List.Outer[[i]][[j]])
+    }
+  }
+  CIH.II.III.NA <- c(length(which(Temp == "Warning or Error")),
+                     length(which(Temp == "type-II response")),
+                     length(which(Temp == "type-III response")),
+                     length(which(Temp == "No evidence for any response.")))
   Ex2.Prop <- rbind(Ex2.Prop, CIH.II.III.NA)
 }
 colnames(Ex2.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
@@ -1192,23 +1214,35 @@ Out.List.Outer <-  vector(mode = 'list', length = length(Ex3SimDat))
 suppressWarnings({
 for (i in 1:length(Ex3SimDat)){
   Out.List.Inner <-  vector(mode = 'list', length = 1000)
-  m <- 1; n <- 6
+  m <- 1; n <- 7
   for (j in 1:1000){
     SimDat <- Ex3SimDat[[i]][m:n, ]
-    SimDat <- SimDat %>% replace(is.na(.), 0) # Gives no response
-    Output <- frair_test(formula = Ne ~ N0, data = SimDat)
+    Output <- tryCatch({frair_test(formula = Ne ~ N0, data = SimDat)},
+                       warning = function(w) {
+                         cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
+                             "Warning or Error"},
+                       error = function(e) {
+                         cat("Error in frfunc", conditionMessage(e), "\n")
+                         "Warning or Error"})
     Out.List.Inner[[j]] <- Output
-    m <- m + 6; n <- n + 6
+    m <- m + 7; n <- n + 7
   }
   Out.List.Outer[[i]] <- Out.List.Inner
 }})
 Ex3.Prop <- c() 
 for (i in 1:length(Ex3SimDat)){
-  Temp <- c(lapply(Out.List.Outer[[i]], getType.Juliano))
-  CIH.II.III.NA <- c(length(which(Out.List.Outer[[i]] == "Couldn't invert Hessian")),
-                     length(which(Out.List.Outer[[i]] == "type-II response")),
-                     length(which(Out.List.Outer[[i]] == "type-III response")),
-                     length(which(Out.List.Outer[[i]] == "No evidence for any response.")))
+  Temp <- c()
+  for (j in 1:length(Out.List.Outer[[i]])){
+    Temp[j] <- if (!is.list(Out.List.Outer[[i]][[j]])){
+      "Warning or Error"
+    } else {
+      getType.Juliano(Out.List.Outer[[i]][[j]])
+    }
+  }
+  CIH.II.III.NA <- c(length(which(Temp == "Warning or Error")),
+                     length(which(Temp == "type-II response")),
+                     length(which(Temp == "type-III response")),
+                     length(which(Temp == "No evidence for any response.")))
   Ex3.Prop <- rbind(Ex3.Prop, CIH.II.III.NA)
 }
 colnames(Ex3.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
@@ -1295,8 +1329,14 @@ for (i in 1:length(Ex1SimDat)){
   m <- 1; n <- 7
   for (j in 1:1000){
     SimDat <- Ex1SimDat[[i]][m:n, ]
-    Output <- frair_fit(formula = Ne ~ N0, data = SimDat, response = "flexpnr",
-                        start = list(b = 0.5, q = 0, h= 0.5), fixed = list(T = 6))
+    Output <- tryCatch({frair_fit(formula = Ne ~ N0, data = SimDat, response = "flexpnr",
+                        start = list(b = 0.5, q = 0, h= 0.5), fixed = list(T = 6))},
+                       warning = function(w) {
+                         cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
+                             "Warning or Error"},
+                       error = function(e) {
+                         cat("Error in frfunc", conditionMessage(e), "\n")
+                         "Warning or Error"})
     Out.List.Inner[[j]] <- Output
     m <- m + 7; n <- n + 7
   }
@@ -1304,14 +1344,21 @@ for (i in 1:length(Ex1SimDat)){
 }})
 Ex1.Prop <- c() 
 for (i in 1:length(Ex1SimDat)){
-  Temp <- c(lapply(Out.List.Outer[[i]], getType.FlexFR))
-  CIH.II.III.NA <- c(length(which(Out.List.Outer[[i]] == "Couldn't invert Hessian")),
-                     length(which(Out.List.Outer[[i]] == "type-II response")),
-                     length(which(Out.List.Outer[[i]] == "type-III response")),
-                     length(which(Out.List.Outer[[i]] == "No evidence for any response.")))
+  Temp <- c()
+  for (j in 1:length(Out.List.Outer[[i]])){
+    Temp[j] <- if (!is.list(Out.List.Outer[[i]][[j]])){
+      "Warning or Error"
+    } else {
+      getType.Juliano(Out.List.Outer[[i]][[j]])
+    }
+  }
+  CIH.II.III.NA <- c(length(which(Temp == "Warning or Error")),
+                     length(which(Temp == "type-II response")),
+                     length(which(Temp == "type-III response")),
+                     length(which(Temp == "No evidence for any response.")))
   Ex1.Prop <- rbind(Ex1.Prop, CIH.II.III.NA)
 }
-colnames(Ex1.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
+colnames(Ex1.Prop) <- c("Warning or Error", "II", "III", "No Evidence")
 rownames(Ex1.Prop) <- c("TLow.II.Unif", "TLow.II.Norm",
                         "TMed.II.Unif", "TMed.II.Norm", "TMed.III.Unif", "TMed.III.Norm",
                         "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
@@ -1325,9 +1372,14 @@ for (i in 1:length(Ex2SimDat)){
   m <- 1; n <- 7
   for (j in 1:1000){
     SimDat <- Ex2SimDat[[i]][m:n, ]
-    SimDat <- SimDat %>% replace(is.na(.), 0) # Gives no response
-    Output <- frair_fit(formula = Ne ~ N0, data = SimDat, response = "flexpnr",
-                        start = list(b = 0.5, q = 0, h= 0.5), fixed = list(T = 6))
+    Output <- tryCatch({frair_fit(formula = Ne ~ N0, data = SimDat, response = "flexpnr",
+                        start = list(b = 0.5, q = 0, h= 0.5), fixed = list(T = 6))},
+                       warning = function(w) {
+                         cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
+                             "Warning or Error"},
+                       error = function(e) {
+                         cat("Error in frfunc", conditionMessage(e), "\n")
+                         "Warning or Error"})
     Out.List.Inner[[j]] <- Output
     m <- m + 7; n <- n + 7
   }
@@ -1335,11 +1387,18 @@ for (i in 1:length(Ex2SimDat)){
 }})
 Ex2.Prop <- c() 
 for (i in 1:length(Ex2SimDat)){
-  Temp <- c(lapply(Out.List.Outer[[i]], getType.FlexFR))
-  CIH.II.III.NA <- c(length(which(Out.List.Outer[[i]] == "Couldn't invert Hessian")),
-                     length(which(Out.List.Outer[[i]] == "type-II response")),
-                     length(which(Out.List.Outer[[i]] == "type-III response")),
-                     length(which(Out.List.Outer[[i]] == "No evidence for any response.")))
+  Temp <- c()
+  for (j in 1:length(Out.List.Outer[[i]])){
+    Temp[j] <- if (!is.list(Out.List.Outer[[i]][[j]])){
+      "Warning or Error"
+    } else {
+      getType.Juliano(Out.List.Outer[[i]][[j]])
+    }
+  }
+  CIH.II.III.NA <- c(length(which(Temp == "Warning or Error")),
+                     length(which(Temp == "type-II response")),
+                     length(which(Temp == "type-III response")),
+                     length(which(Temp == "No evidence for any response.")))
   Ex2.Prop <- rbind(Ex2.Prop, CIH.II.III.NA)
 }
 colnames(Ex2.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
@@ -1353,24 +1412,36 @@ Out.List.Outer <-  vector(mode = 'list', length = length(Ex3SimDat))
 suppressWarnings({
 for (i in 1:length(Ex3SimDat)){
   Out.List.Inner <-  vector(mode = 'list', length = 1000)
-  m <- 1; n <- 6
+  m <- 1; n <- 7
   for (j in 1:1000){
     SimDat <- Ex3SimDat[[i]][m:n, ]
-    SimDat <- SimDat %>% replace(is.na(.), 0) # Gives no response
-    Output <- frair_fit(formula = Ne ~ N0, data = SimDat, response = "flexpnr",
-                        start = list(b = 0.5, q = 0, h= 0.5), fixed = list(T = 6))
+    Output <- tryCatch({frair_fit(formula = Ne ~ N0, data = SimDat, response = "flexpnr",
+                        start = list(b = 0.5, q = 0, h= 0.5), fixed = list(T = 6))},
+                       warning = function(w) {
+                         cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
+                             "Warning or Error"},
+                       error = function(e) {
+                         cat("Error in frfunc", conditionMessage(e), "\n")
+                         "Warning or Error"})
     Out.List.Inner[[j]] <- Output
-    m <- m + 6; n <- n + 6
+    m <- m + 7; n <- n + 7
   }
   Out.List.Outer[[i]] <- Out.List.Inner
 }})
 Ex3.Prop <- c() 
 for (i in 1:length(Ex3SimDat)){
-  Temp <- c(lapply(Out.List.Outer[[i]], getType.FlexFR))
-  CIH.II.III.NA <- c(length(which(Out.List.Outer[[i]] == "Couldn't invert Hessian")),
-                     length(which(Out.List.Outer[[i]] == "type-II response")),
-                     length(which(Out.List.Outer[[i]] == "type-III response")),
-                     length(which(Out.List.Outer[[i]] == "No evidence for any response.")))
+  Temp <- c()
+  for (j in 1:length(Out.List.Outer[[i]])){
+    Temp[j] <- if (!is.list(Out.List.Outer[[i]][[j]])){
+      "Warning or Error"
+    } else {
+      getType.Juliano(Out.List.Outer[[i]][[j]])
+    }
+  }
+  CIH.II.III.NA <- c(length(which(Temp == "Warning or Error")),
+                     length(which(Temp == "type-II response")),
+                     length(which(Temp == "type-III response")),
+                     length(which(Temp == "No evidence for any response.")))
   Ex3.Prop <- rbind(Ex3.Prop, CIH.II.III.NA)
 }
 colnames(Ex3.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
