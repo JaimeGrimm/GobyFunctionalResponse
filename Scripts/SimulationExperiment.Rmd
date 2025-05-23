@@ -27,7 +27,7 @@ Where $b$, and $c$ are free parameters.
 
 ## Set-Up
 
-```{r}
+```{r echo = TRUE, results = 'hide'}
 library(frair); library(lamW); library(tidyverse); library(here)
 ```
 
@@ -69,38 +69,38 @@ plot(N0s, Ne, main = "Hassell's Type III Functional Response")
 
 | Treatment     | Model             | Parameter | Lower CI | Point Estimate | Upper CI          |
 |------------|------------|------------|------------|------------|------------|
-| Ex. 1, Low    | Rogers, Type II   | a         | 0.489    | 1.704          | 3.598             |
-|               |                   | h         | 0.055    | 0.072          | 0.094             |
-| Ex. 1, Medium | Rogers, Type II   | a         | 0.706    | 1.036          | 1.458             |
-|               |                   | h         | 0.033    | 0.046          | 0.059             |
-|               | Hassell, Type III | b         | 0.218    | 5.303          | **1,686,863.823** |
-|               |                   | c         | 0.049    | 5.000          | **1,796,176.396** |
-|               |                   | h         | 0.033    | 0.046          | 0.060             |
-| Ex. 1, High   | Rogers, Type II   | a         | 0.224    | 0.607          | 1.055             |
-|               |                   | h         | 0.028    | 0.055          | 0.091             |
-|               | Hassell, Type III | b         | 0.079    | 0.537          | **1,072,285.537** |
-|               |                   | c         | 0.000    | 0.758          | **2,227,240.993** |
-|               |                   | h         | 0.008    | 0.058          | 0.088             |
-| Ex. 2, Low    | Rogers, Type II   | a         | 0.262    | 0.477          | 0.752             |
-|               |                   | h         | 0        | 0.038          | 0.132             |
-|               | Hassell, Type III | b         | 0.062    | 0.191          | **197,962.248**   |
-|               |                   | c         | 0.000    | 0.239          | **533,631.835**   |
-|               |                   | h         | 0.000    | 0.061          | 0.143             |
-| Ex. 2, Medium | Hassell, Type III | b         | 0.013    | 0.039          | **323,804.821**   |
-|               |                   | c         | 0.000    | 0.180          | **3,514,096.291** |
-|               |                   | h         | 0.000    | 0.067          | 0.274             |
-| Ex. 2, High   | Rogers, Type II   | a         | 0.086    | 0.144          | 0.207             |
-|               |                   | h         | 0.000    | 0.046          | 0.257             |
-|               | Hassell, Type III | b         | 0.010    | 0.024          | 0.068             |
-|               |                   | c         | 0.000    | 0.026          | 2.007             |
-|               |                   | h         | 0.000    | 0.181          | 0.420             |
-| Ex. 3, Rocks  | Rogers, Type II   | a         | 0.075    | 0.131          | 0.211             |
-|               |                   | h         | 0.000    | 0.102          | 0.293             |
-| Ex. 3, Sand   | Rogers, Type II   | a         | 0.488    | 0.848          | 1.516             |
-|               |                   | h         | 0.000    | 0.048          | 0.249             |
-|               | Hassell, Type III | b         | 0.221    | 1.181          | **3,338,468.210** |
-|               |                   | c         | 0.000    | 1.163          | **1,780,576.771** |
-|               |                   | h         | 0.000    | 0.058          | 0.289             |
+| Ex. 1, Low    | Rogers, Type II   | *a*       | 0.489    | 1.704          | 3.598             |
+|               |                   | *h*       | 0.055    | 0.072          | 0.094             |
+| Ex. 1, Medium | Rogers, Type II   | *a*       | 0.706    | 1.036          | 1.458             |
+|               |                   | *h*       | 0.033    | 0.046          | 0.059             |
+|               | Hassell, Type III | *b*       | 0.218    | 5.303          | **1,686,863.823** |
+|               |                   | *c*       | 0.049    | 5.000          | **1,796,176.396** |
+|               |                   | *h*       | 0.033    | 0.046          | 0.060             |
+| Ex. 1, High   | Rogers, Type II   | *a*       | 0.224    | 0.607          | 1.055             |
+|               |                   | *h*       | 0.028    | 0.055          | 0.091             |
+|               | Hassell, Type III | *b*       | 0.079    | 0.537          | **1,072,285.537** |
+|               |                   | *c*       | 0.000    | 0.758          | **2,227,240.993** |
+|               |                   | *h*       | 0.008    | 0.058          | 0.088             |
+| Ex. 2, Low    | Rogers, Type II   | *a*       | 0.262    | 0.477          | 0.752             |
+|               |                   | *h*       | 0        | 0.038          | 0.132             |
+|               | Hassell, Type III | *b*       | 0.062    | 0.191          | **197,962.248**   |
+|               |                   | *c*       | 0.000    | 0.239          | **533,631.835**   |
+|               |                   | *h*       | 0.000    | 0.061          | 0.143             |
+| Ex. 2, Medium | Hassell, Type III | *b*       | 0.013    | 0.039          | **323,804.821**   |
+|               |                   | *c*       | 0.000    | 0.180          | **3,514,096.291** |
+|               |                   | *h*       | 0.000    | 0.067          | 0.274             |
+| Ex. 2, High   | Rogers, Type II   | *a*       | 0.086    | 0.144          | 0.207             |
+|               |                   | *h*       | 0.000    | 0.046          | 0.257             |
+|               | Hassell, Type III | *b*       | 0.010    | 0.024          | 0.068             |
+|               |                   | *c*       | 0.000    | 0.026          | 2.007             |
+|               |                   | *h*       | 0.000    | 0.181          | 0.420             |
+| Ex. 3, Rocks  | Rogers, Type II   | *a*       | 0.075    | 0.131          | 0.211             |
+|               |                   | *h*       | 0.000    | 0.102          | 0.293             |
+| Ex. 3, Sand   | Rogers, Type II   | *a*       | 0.488    | 0.848          | 1.516             |
+|               |                   | *h*       | 0.000    | 0.048          | 0.249             |
+|               | Hassell, Type III | *b*       | 0.221    | 1.181          | **3,338,468.210** |
+|               |                   | *c*       | 0.000    | 1.163          | **1,780,576.771** |
+|               |                   | *h*       | 0.000    | 0.058          | 0.289             |
 
 ## Simulations
 
@@ -1123,7 +1123,7 @@ getType.Juliano <- function(x) {
 
 #### One Test Per Row
 
-```{r}
+```{r echo = T, results = 'hide'}
 ## Experiment 1
 N0 <- c(4, 6, 10, 20, 60, 90, 120)
 Out.List.Outer <-  vector(mode = 'list', length = length(Ex1SimDat)) 
@@ -1203,7 +1203,7 @@ for (i in 1:length(Ex2SimDat)){
                      length(which(Temp == "No evidence for any response.")))
   Ex2.Prop <- rbind(Ex2.Prop, CIH.II.III.NA)
 }
-colnames(Ex2.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
+colnames(Ex2.Prop) <- c("Warning or Error", "II", "III", "No Evidence")
 rownames(Ex2.Prop) <- c("TLow.II.Unif", "TLow.II.Norm", "TLow.III.Unif", "TLow.III.Norm",
                         "TMed.III.Unif", "TMed.III.Norm",
                         "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
@@ -1245,7 +1245,7 @@ for (i in 1:length(Ex3SimDat)){
                      length(which(Temp == "No evidence for any response.")))
   Ex3.Prop <- rbind(Ex3.Prop, CIH.II.III.NA)
 }
-colnames(Ex3.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
+colnames(Ex3.Prop) <- c("Warning or Error", "II", "III", "No Evidence")
 rownames(Ex3.Prop) <- c("TRocks.II.Unif", "TRocks.II.Norm",
                         "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
 
@@ -1319,7 +1319,7 @@ getType.FlexFR <- function(x){
 
 #### One Test Per Row
 
-```{r}
+```{r echo = T, results = 'hide'}
 ## Experiment 1
 N0 <- c(4, 6, 10, 20, 60, 90, 120)
 Out.List.Outer <-  vector(mode = 'list', length = length(Ex1SimDat)) 
@@ -1401,7 +1401,7 @@ for (i in 1:length(Ex2SimDat)){
                      length(which(Temp == "No evidence for any response.")))
   Ex2.Prop <- rbind(Ex2.Prop, CIH.II.III.NA)
 }
-colnames(Ex2.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
+colnames(Ex2.Prop) <- c("Warning or Error", "II", "III", "No Evidence")
 rownames(Ex2.Prop) <- c("TLow.II.Unif", "TLow.II.Norm", "TLow.III.Unif", "TLow.III.Norm",
                         "TMed.III.Unif", "TMed.III.Norm",
                         "THigh.II.Unif", "THigh.II.Norm", "THigh.III.Unif", "THigh.III.Norm")
@@ -1444,7 +1444,7 @@ for (i in 1:length(Ex3SimDat)){
                      length(which(Temp == "No evidence for any response.")))
   Ex3.Prop <- rbind(Ex3.Prop, CIH.II.III.NA)
 }
-colnames(Ex3.Prop) <- c("Couldn't Invert Hessian", "II", "III", "No Evidence")
+colnames(Ex3.Prop) <- c("Warning or Error", "II", "III", "No Evidence")
 rownames(Ex3.Prop) <- c("TRocks.II.Unif", "TRocks.II.Norm",
                         "TSand.II.Unif", "TSand.II.Norm", "TSand.III.Unif", "TSand.III.Norm")
 
@@ -1578,7 +1578,7 @@ legend("topright", inset = c(-0.5, 0), legend = c("Juliano's", "Flexible FR"), c
 
 ### Method (3): AIC
 
-```{r}
+```{r echo = T, results = 'hide'}
 ## Experiment 1
 N0 <- c(4, 6, 10, 20, 60, 90, 120)
 Out.List.Outer <-  vector(mode = 'list', length = length(Ex1SimDat)) 
@@ -1767,7 +1767,7 @@ Prop.List <- list(Ex1.Prop.J, Ex2.Prop.J, Ex3.Prop.J,
 for (i in 1:length(Prop.List)){
   rows <- seq(1, nrow(Prop.List[[i]]), 2)
   print(Prop.List[[i]][rows, ])
-  print(rowSums(Prop.List[[i]]))
+  # print(rowSums(Prop.List[[i]]))
 }
 ```
 
