@@ -1746,61 +1746,29 @@ saveRDS(Ex2.Prop, here("./SimOutputs/Ex2Prop_AIC.rds"))
 saveRDS(Ex3.Prop, here("./SimOutputs/Ex3Prop_AIC.rds"))
 ```
 
-**TRYING TO WORK OUT THE WARNING: COULDN'T INVERT HESSIAN STUFF**
+### Summarising Methods (1) Through (3)
 
 ```{r}
+Ex1.Prop.J <- readRDS(here("./SimOutputs/Ex1Prop_Juliano.rds"))
+Ex2.Prop.J <- readRDS(here("./SimOutputs/Ex2Prop_Juliano.rds"))
+Ex3.Prop.J <- readRDS(here("./SimOutputs/Ex3Prop_Juliano.rds"))
+Ex1.Prop.F <- readRDS(here("./SimOutputs/Ex1Prop_FlexFR.rds"))
+Ex2.Prop.F <- readRDS(here("./SimOutputs/Ex2Prop_FlexFR.rds"))
+Ex3.Prop.F <- readRDS(here("./SimOutputs/Ex3Prop_FlexFR.rds"))
+Ex1.Prop.A <- readRDS(here("./SimOutputs/Ex1Prop_AIC.rds"))
+Ex2.Prop.A <- readRDS(here("./SimOutputs/Ex2Prop_AIC.rds"))
+Ex3.Prop.A <- readRDS(here("./SimOutputs/Ex3Prop_AIC.rds"))
 
+Prop.List <- list(Ex1.Prop.J, Ex2.Prop.J, Ex3.Prop.J,
+                  Ex1.Prop.F, Ex2.Prop.F, Ex3.Prop.F,
+                  Ex1.Prop.A, Ex2.Prop.A, Ex3.Prop.A)
 
-for (i in 1:10){
-  results[i] <-
-  tryCatch({
-  log(i-5)}, warning = function(w) {
-    cat("A warning occurred:", conditionMessage(w), "\n")
-    "Couldn't invert Hessian"
-  }
-  )
+## Printing `runif` results to (1) look at outputs and (2) check that all the rows sum to 1000 (all simulations are accounted for)
+for (i in 1:length(Prop.List)){
+  rows <- seq(1, nrow(Prop.List[[i]]), 2)
+  print(Prop.List[[i]][rows, ])
+  print(rowSums(Prop.List[[i]]))
 }
-results
-
-
-
-
-N0 <- c(4, 6, 10, 20, 60, 90, 120)
-Out.List.Outer <-  vector(mode = 'list', length = length(Ex1SimDat)) 
-suppressWarnings({
-for (i in 1:length(Ex1SimDat)){
-  Out.List.Inner <-  vector(mode = 'list', length = 1000)
-  m <- 1; n <- 7
-  for (j in 1:1000){
-    SimDat <- Ex1SimDat[[i]][m:n, ]
-    Output.II <- tryCatch({frair_fit(Ne ~ N0, data = SimDat, response = 'rogersII',
-                           start = list(a = 1, h = 0.1), fixed = list(T = 2))},
-                          warning = function(w) {
-                             cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
-                             "Couldn't invert Hessian"})
-    Output.III <- tryCatch({frair_fit(Ne ~ N0, data = SimDat, response = 'hassIIInr',
-                            start = list(b = 1, c = 1, h = 0.1), fixed = list(T = 2))},
-                           warning = function(w) {
-                             cat("Warning: couldn't invert Hessian", conditionMessage(w), "\n")
-                             "Couldn't invert Hessian"})
-    if (is.list(Output.II) & is.list(Output.III)) {
-    AIC.Out <- ICtab(c(Output.II$fit, Output.III$fit), type = "AICc",
-                     mnames = c("Output.II$fit", "Output.III$fit"), 
-                     weights = TRUE, nobs = nrow(SimDat))}
-    Output <- if (!is.list(Output.II) | !is.list(Output.III)) {
-      "Couldn't invert Hessian"
-    } else if  (AIC.Out$dAICc[1] == 0 & (AIC.Out$dAICc[1] + 2) <= AIC.Out$dAICc[2]) {
-      "type-II response"
-    } else if (AIC.Out$dAICc[2] == 0 & (AIC.Out$dAICc[2] + 2) <= AIC.Out$dAICc[1]) {
-      "type-III response"
-    } else {
-      "No evidence for any response."
-    }
-    Out.List.Inner[[j]] <- Output
-    m <- m + 7; n <- n + 7
-  }
-  Out.List.Outer[[i]] <- Out.List.Inner
-}})
 ```
 
 ### Method (4): Visual Inspection
