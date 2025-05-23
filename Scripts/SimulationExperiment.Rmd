@@ -68,7 +68,7 @@ plot(N0s, Ne, main = "Hassell's Type III Functional Response")
 [Parameter Estimates by Experiment and Treatment](https://docs.google.com/spreadsheets/d/1oGCKVAigW9UiNIdo2o0YO_gVQ8yaCcvXJf1FVvYEjuM/edit?gid=0#gid=0):
 
 | Treatment     | Model             | Parameter | Lower CI | Point Estimate | Upper CI          |
-|---------------|-------------------|-----------|----------|----------------|-------------------|
+|------------|------------|------------|------------|------------|------------|
 | Ex. 1, Low    | Rogers, Type II   | a         | 0.489    | 1.704          | 3.598             |
 |               |                   | h         | 0.055    | 0.072          | 0.094             |
 | Ex. 1, Medium | Rogers, Type II   | a         | 0.706    | 1.036          | 1.458             |
@@ -1214,7 +1214,7 @@ Out.List.Outer <-  vector(mode = 'list', length = length(Ex3SimDat))
 suppressWarnings({
 for (i in 1:length(Ex3SimDat)){
   Out.List.Inner <-  vector(mode = 'list', length = 1000)
-  m <- 1; n <- 7
+  m <- 1; n <- 6
   for (j in 1:1000){
     SimDat <- Ex3SimDat[[i]][m:n, ]
     Output <- tryCatch({frair_test(formula = Ne ~ N0, data = SimDat)},
@@ -1225,7 +1225,7 @@ for (i in 1:length(Ex3SimDat)){
                          cat("Error in frfunc", conditionMessage(e), "\n")
                          "Warning or Error"})
     Out.List.Inner[[j]] <- Output
-    m <- m + 7; n <- n + 7
+    m <- m + 6; n <- n + 6
   }
   Out.List.Outer[[i]] <- Out.List.Inner
 }})
@@ -1349,7 +1349,7 @@ for (i in 1:length(Ex1SimDat)){
     Temp[j] <- if (!is.list(Out.List.Outer[[i]][[j]])){
       "Warning or Error"
     } else {
-      getType.Juliano(Out.List.Outer[[i]][[j]])
+      getType.FlexFR(Out.List.Outer[[i]][[j]])
     }
   }
   CIH.II.III.NA <- c(length(which(Temp == "Warning or Error")),
@@ -1392,7 +1392,7 @@ for (i in 1:length(Ex2SimDat)){
     Temp[j] <- if (!is.list(Out.List.Outer[[i]][[j]])){
       "Warning or Error"
     } else {
-      getType.Juliano(Out.List.Outer[[i]][[j]])
+      getType.FlexFR(Out.List.Outer[[i]][[j]])
     }
   }
   CIH.II.III.NA <- c(length(which(Temp == "Warning or Error")),
@@ -1435,7 +1435,7 @@ for (i in 1:length(Ex3SimDat)){
     Temp[j] <- if (!is.list(Out.List.Outer[[i]][[j]])){
       "Warning or Error"
     } else {
-      getType.Juliano(Out.List.Outer[[i]][[j]])
+      getType.FlexFR(Out.List.Outer[[i]][[j]])
     }
   }
   CIH.II.III.NA <- c(length(which(Temp == "Warning or Error")),
