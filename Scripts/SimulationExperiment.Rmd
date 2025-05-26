@@ -719,14 +719,14 @@ for (i in 1:length(N0)){
 
 # Plotting
 
-plot(1, type = "n", main = "Experiment 1, Sand Treatment: Hassell's Type III FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 30))
+plot(1, type = "n", main = "Experiment 3, Sand Treatment: Hassell's Type III FR | Unif", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 30))
 for (i in 1:length(N0)){
   for (j in 1:1000){
     points(x = N0[i], y = Ex3.TSand.III.Unif[[i]][j])
   }
 }
 
-plot(1, type = "n", main = "Experiment 1, Sand Treatment: Hassell's Type III FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 30))
+plot(1, type = "n", main = "Experiment 3, Sand Treatment: Hassell's Type III FR | Norm", xlab = "Initial Prey Density", ylab = "Number of Prey Eaten", xlim = c(0, 30), ylim = c(0, 30))
 for (i in 1:length(N0)){
   for (j in 1:1000){
     points(x = N0[i], y = Ex3.TSand.III.Norm[[i]][j])
